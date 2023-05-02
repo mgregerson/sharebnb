@@ -1,11 +1,13 @@
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import UniqueConstraint
 from datetime import datetime
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 
 DEFAULT_IMAGE_URL = "/static/images/default_profile_img.png"
+
 
 class User(db.Model):
     """ User in the system """
@@ -50,16 +52,13 @@ class User(db.Model):
         nullable=False,
     )
 
-    messages = db.relationship('Message', backref='user')
+    # messages = db.relationship('Message', backref='users')
 
-    rentals = db.relationship('Rental', backref='user')
+    rentals = db.relationship('Rental', backref='users')
 
     @classmethod
     def signup(cls, username, email, password, image_url=DEFAULT_IMAGE_URL):
-        """Sign up user.
-
-        Hashes password and adds user to system.
-        """
+        """Sign up user. Hashes password and adds to db"""
 
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
 
@@ -76,10 +75,6 @@ class User(db.Model):
     @classmethod
     def authenticate(cls, username, password):
         """Find user with `username` and `password`.
-
-        This is a class method (call it on the class, not an individual user.)
-        It searches for a user whose password hash matches this password
-        and, if it finds such a user, returns that user object.
 
         If this can't find matching user (or if password is wrong), returns
         False.
@@ -129,6 +124,8 @@ class Rental(db.Model):
         nullable=False,
     )
 
+    reservations = db.relationship('Reservation', backref='rentals')
+
 
 class Reservation(db.Model):
     """ Reservation on each rental """
@@ -156,8 +153,13 @@ class Reservation(db.Model):
         nullable=False,
     )
 
-    owner_id = db.Column(
-        db.Integer,
-        db.ForeignKey('rentals.owner', ondelete='CASCADE'),
-        nullable=False,
-    )
+
+def connect_db(app):
+    """Connect this database to provided Flask app.
+
+    You should call this in your Flask app.
+    """
+
+    app.app_context().push()
+    db.app = app
+    db.init_app(app)
