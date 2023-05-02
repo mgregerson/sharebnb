@@ -38,7 +38,7 @@ def upload_file(file_name, bucket=bucket, object_name=None):
         return False
 
 def download(file_name, bucket=bucket, object_name=None ):
-    """ TODO: docstring """
+    """  """
 
     if object_name is None:
         object_name = os.path.basename(file_name)
