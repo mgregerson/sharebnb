@@ -1,4 +1,5 @@
 from flask import Flask, request, redirect, render_template, flash, jsonify
+from flask_cors import CORS
 from werkzeug.exceptions import Unauthorized
 from flask_debugtoolbar import DebugToolbarExtension
 import os
@@ -12,6 +13,7 @@ BASE_URL = "http://127.0.0.1:"
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
@@ -118,8 +120,11 @@ def get_user_rental(username, rental_id):
     return jsonify(rental=serialized)
 
 @app.post('/rentals/<username>/add')
-def add_rental():
+def add_rental(username):
     """Allows a user to add a new rental"""
+
+    rental_data = request.get_json()
+    print(rental_data, 'THE RENTAL DATA IN PYTHON')
 
     return 'rentals/username/add'
 
