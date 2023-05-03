@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import './AddRentalForm.css'
+import { useState } from "react";
+import "./AddRentalForm.css";
 
 /** Form to add rental
  *
@@ -12,31 +12,38 @@ import './AddRentalForm.css'
  * User -> AddRentalForm
  */
 function AddRentalForm({ addRentalSpace }) {
-
   const initialFormData = {
-    description: '',
-    location: '',
-    price: '',
-  }
+    description: "",
+    location: "",
+    price: "",
+  };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [photos, setPhotos] = useState('');
+  const [photo, setPhoto] = useState("");
+
+  // console.log(formData, "THE FORM DATA");
+  // console.log(photo, "THE PHOTO STATE");
 
   /**  */
   function handleChange(evt) {
-    const { name, value } = evt.target
+    const { name, value } = evt.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   }
 
   function handlePhotoUploadChange(evt) {
-    const { name, value } = evt.target;
-    setPhotos({
-      ...photos,
-      [name]: value
-    });
+    const file = evt.target.files[0];
+    readFile(file);
+  }
+
+  function readFile(file) {
+    const reader = new FileReader();
+    reader.onloadend = (evt) => {
+      setPhoto(reader.result);
+    };
+    reader.readAsDataURL(file);
   }
 
   /**  */
@@ -44,50 +51,44 @@ function AddRentalForm({ addRentalSpace }) {
     evt.preventDefault();
     addRentalSpace({
       rentalData: formData,
-      rentalPhotos: photos
+      rentalPhotos: photo,
     });
   }
 
   return (
-    <form className='AddRentalForm' onSubmit={handleSubmit}>
+    <form className="AddRentalForm" onSubmit={handleSubmit}>
       <h1>Rent out your open space!</h1>
-      <label htmlFor='description'>Description </label>
+      <label htmlFor="description">Description </label>
       <textarea
-        id='description'
-        className='AddRentalForm-input'
-        name='description'
+        id="description"
+        className="AddRentalForm-input"
+        name="description"
         value={formData.description}
-        placeholder='description'
+        placeholder="description"
         onChange={handleChange}
       />
-      <label htmlFor='location'>Location </label>
+      <label htmlFor="location">Location </label>
       <input
-        id='location'
-        className='AddRentalForm-input'
-        name='location'
+        id="location"
+        className="AddRentalForm-input"
+        name="location"
         value={formData.location}
-        placeholder='location'
+        placeholder="location"
         onChange={handleChange}
       />
-      <label htmlFor='price'>Cost to rent per day in USD </label>
+      <label htmlFor="price">Cost to rent per day in USD </label>
       <input
-        id='price'
-        className='AddRentalForm-input'
-        name='price'
+        id="price"
+        className="AddRentalForm-input"
+        name="price"
         value={formData.price}
-        placeholder='price'
+        placeholder="price"
         onChange={handleChange}
       />
-      <input
-        type='file'
-        onChange={handlePhotoUploadChange}
-        name='photos'
-        value={photos}
-      />
+      <input type="file" onChange={handlePhotoUploadChange} name="photos" />
       <button>Add Space</button>
     </form>
   );
 }
-
 
 export default AddRentalForm;
