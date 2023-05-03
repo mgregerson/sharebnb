@@ -24,10 +24,6 @@ debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
-db.drop_all()
-db.create_all()
-
-
 ##############################################################################
 # User signup/login
 
@@ -73,29 +69,6 @@ def login():
     token = create_jwt(login_data["username"])
 
     return jsonify(token=token)
-
-
-# @app.route('/login', methods=["GET", "POST"])
-# def login():
-#     """Handle user login and redirect to homepage on success."""
-
-#     form = LoginForm()
-
-#     if form.validate_on_submit():
-#         user = User.authenticate(
-#             form.username.data,
-#             form.password.data)
-
-#         if user:
-#             do_login(user)
-#             flash(f"Hello, {user.username}!", "success")
-#             return redirect("/")
-
-#         flash("Invalid credentials.", 'danger')
-
-#     return render_template('users/login.html', form=form)
-
-
 
 ##############################################################################
 # Rentals routes:
@@ -145,6 +118,23 @@ def get_user_rental(username, rental_id):
 
     return jsonify(rental=serialized)
 
+@app.post('/rentals/<username>/add')
+def add_rental():
+    """Allows a user to add a new rental"""
+
+    return 'rentals/username/add'
+
+@app.patch('/rentals/<username>/<int:rental_id>', methods=['PATCH'])
+def edit_rental():
+    """Allows a user to edit a rental"""
+
+    return "/rentals/<username>/<int:rental_id>"
+
+@app.post('/rentals/<int:rental_id>/new-reservation')
+def add_reservation():
+    """Allows a user to book a new reservation"""
+
+    return '/rentals/<int:rental_id>/new-reservation'
 
 ##############################################################################
 # User routes:
@@ -190,11 +180,7 @@ def get_user_reservation(username, reservation_id):
 
 
 
-# /user/username (Profile Page)  (finished)
-# /reservations/user (All their reservations)   (finished)
-# /user/reservations/int:reservation-id (A single reservation)  (finished)
-# /rentals/username (All their rentals)  (finished)
-# /rentals/username/int:rental-id (A single rental) (finished)
+
 
 # TODO: Work on Messages
 # /messages/username (All their messages)

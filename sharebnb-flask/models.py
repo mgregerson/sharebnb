@@ -136,6 +136,20 @@ class Rental(db.Model):
 
     ratings = db.relationship('Rating', backref='rentals')
 
+    @classmethod
+    def add_rental(cls, description, location, price, owner_username):
+        """Class method to add a rental to the database"""
+
+        rental = Rental(
+            description=description,
+            location=location,
+            price=price,
+            owner_username=owner_username,
+        )
+
+        db.session.add(rental)
+        return rental
+
     def serialize(self):
         """Serialize to dictionary."""
 
@@ -212,6 +226,20 @@ class Reservation(db.Model):
         nullable=False
     )
 
+    @classmethod
+    def add_reservation(cls, date, rental_id, renter, rating=None):
+        """Class method to add a rental to the database"""
+
+        reservation = Reservation(
+            date=date,
+            rental_id=rental_id,
+            renter=renter,
+            rating=rating,
+        )
+
+        db.session.add(reservation)
+        return reservation
+
     def serialize(self):
         """Serialize to dictionary."""
 
@@ -222,6 +250,7 @@ class Reservation(db.Model):
             "rental_id": self.rental_id,
             "renter": self.renter
         }
+        
 
 
 def connect_db(app):
