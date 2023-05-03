@@ -20,7 +20,6 @@ debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
-
 db.create_all()
 
 
@@ -76,14 +75,11 @@ def get_user_reservations(username):
 @app.get('/reservations/<username>/<int:reservation_id>')
 def get_user_reservation(username, reservation_id):
     """Returns json data of a single user reservation"""
-    user = Rental.query.all()
 
     reservation = Reservation.query.filter(
         Reservation.renter == username and
         Reservation.id == reservation_id
-    )
-    breakpoint()
-    print(reservation)
+    ).first()
     serialized = reservation.serialize()
 
     return jsonify(reservation=serialized)
