@@ -1,10 +1,14 @@
 from flask import Flask, request, redirect, render_template, flash, jsonify
 from werkzeug.exceptions import Unauthorized
 from flask_debugtoolbar import DebugToolbarExtension
+import requests
 import os
 from dotenv import load_dotenv
 from models import db, connect_db, User, Rental, Reservation
 from sqlalchemy import and_
+from helpers import create_jwt
+
+BASE_URL = "http://127.0.0.1:"
 
 load_dotenv()
 
@@ -20,8 +24,79 @@ debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
-
+db.drop_all()
 db.create_all()
+
+
+##############################################################################
+# User signup/login
+
+@app.post('/signup')
+def signup():
+    """Handle user signup."""
+
+    user_data  = request.get_json()
+
+    print(user_data, 'THE USER DATA IN SIGNUP')
+
+    if (not user_data['image_url']):
+        new_user = User.signup(username=user_data['username'], 
+                           password=user_data['password'], 
+                           email=user_data['email'],
+                           location=user_data['location'] or None,
+                           bio=user_data['bio'] or None)
+
+    new_user = User.signup(username=user_data['username'], 
+                           password=user_data['password'], 
+                           email=user_data['email'],
+                           image_url=user_data['image_url'],
+                           location=user_data['location'] or None,
+                           bio=user_data['bio'] or None)
+    
+    db.session.commit()
+    token = create_jwt(user_data["username"])
+    
+    return jsonify(token=token)
+
+# @app.route('/signup', methods=["POST"])
+# def signup():
+#     """Handle user signup.
+
+#     Create new user and add to DB. Redirect to home page.
+
+#     If form not valid, present form.
+
+#     If the there already is a user with that username: flash message
+#     and re-present form.
+#     """
+
+#     if CURR_USER_KEY in session:
+#         del session[CURR_USER_KEY]
+#     form = UserAddForm()
+
+#     if form.validate_on_submit():
+#         try:
+#             user = User.signup(
+#                 username=form.username.data,
+#                 password=form.password.data,
+#                 email=form.email.data,
+#                 image_url=form.image_url.data or User.image_url.default.arg,
+#             )
+#             db.session.commit()
+
+#         except IntegrityError:
+#             flash("Username already taken", 'danger')
+#             return render_template('users/signup.html', form=form)
+
+#         do_login(user)
+
+#         return redirect("/")
+
+#     else:
+#         return render_template('users/signup.html', form=form)
+
+
+
 
 
 ##############################################################################
@@ -88,7 +163,6 @@ def get_user(username):
     return jsonify(user=serialized_user, rentals=serialized_rentals)
 
 
-
 ##############################################################################
 # Reservations routes:
 
@@ -122,50 +196,10 @@ def get_user_reservation(username, reservation_id):
 # /reservations/user (All their reservations)   (finished)
 # /user/reservations/int:reservation-id (A single reservation)  (finished)
 # /rentals/username (All their rentals)  (finished)
-# /rentals/username/int:rental-id (A single rental)
+# /rentals/username/int:rental-id (A single rental) (finished)
+
+# TODO: Work on Messages
 # /messages/username (All their messages)
 # /messages/username/int:message-id (A single message)
-
-##############################################################################
-# User signup/login/logout
-
-# @app.route('/signup', methods=["POST"])
-# def signup():
-#     """Handle user signup.
-
-#     Create new user and add to DB. Redirect to home page.
-
-#     If form not valid, present form.
-
-#     If the there already is a user with that username: flash message
-#     and re-present form.
-#     """
-
-#     if CURR_USER_KEY in session:
-#         del session[CURR_USER_KEY]
-#     form = UserAddForm()
-
-#     if form.validate_on_submit():
-#         try:
-#             user = User.signup(
-#                 username=form.username.data,
-#                 password=form.password.data,
-#                 email=form.email.data,
-#                 image_url=form.image_url.data or User.image_url.default.arg,
-#             )
-#             db.session.commit()
-
-#         except IntegrityError:
-#             flash("Username already taken", 'danger')
-#             return render_template('users/signup.html', form=form)
-
-#         do_login(user)
-
-#         return redirect("/")
-
-#     else:
-#         return render_template('users/signup.html', form=form)
-
-
 
 
