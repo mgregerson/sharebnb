@@ -21,10 +21,7 @@ function AddRentalForm({ addRentalSpace }) {
   const [formData, setFormData] = useState(initialFormData);
   const [photo, setPhoto] = useState("");
 
-  // console.log(formData, "THE FORM DATA");
-  // console.log(photo, "THE PHOTO STATE");
-
-  /**  */
+  /** Handles change of form */
   function handleChange(evt) {
     const { name, value } = evt.target;
     setFormData({
@@ -33,11 +30,13 @@ function AddRentalForm({ addRentalSpace }) {
     });
   }
 
+  /** Calls read file function with target file */
   function handlePhotoUploadChange(evt) {
     const file = evt.target.files[0];
     readFile(file);
   }
 
+  /** converts file to encoded-64 string and sets photo state */
   function readFile(file) {
     const reader = new FileReader();
     reader.onloadend = (evt) => {
@@ -46,7 +45,7 @@ function AddRentalForm({ addRentalSpace }) {
     reader.readAsDataURL(file);
   }
 
-  /**  */
+  /** Calls function in parent prop to submit form data */
   function handleSubmit(evt) {
     evt.preventDefault();
     addRentalSpace({

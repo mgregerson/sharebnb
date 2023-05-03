@@ -1,6 +1,7 @@
 import "./App.css";
 import AddRentalForm from "./AddRentalForm";
 import { useState } from "react";
+import shareBnbApi from "./api";
 
 /**
  *
@@ -8,14 +9,11 @@ import { useState } from "react";
  */
 function App() {
   const [rentalSpaces, setRentalSpaces] = useState(null);
-
-  console.log(rentalSpaces, "THE RENTAL SPACES IN APP.JS");
+  const [user, setUser] = useState(null);
   /**  */
-  function addRentalSpace(rental) {
-    const { rentalData, rentalPhotos } = rental;
-
-    console.log("rentalData IN ADD RENTAL:", rentalData);
-    console.log("rentalPhotos:", rentalPhotos);
+  async function addRentalSpace(rental) {
+    const newRental = await shareBnbApi.addRental(rental);
+    console.log(newRental);
 
     setRentalSpaces((rentalSpaces) => ({
       ...rentalSpaces,
@@ -24,6 +22,8 @@ function App() {
 
     // TODO: need axios call to post data to back end.
   }
+
+  console.log(rentalSpaces, "THE RENTAL SPACES");
 
   return (
     <div className="App">
