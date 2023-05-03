@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './AddRentalForm.css'
 
 /** Form to add rental
  *

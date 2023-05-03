@@ -1,0 +1,4 @@
+.AddRentalForm {
+  display: flex;
+  flex-direction: column;
+}
