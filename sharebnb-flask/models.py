@@ -15,20 +15,15 @@ class User(db.Model):
     __tablename__ = 'users'
 
     def __repr__(self):
-        return f"<User #{self.id}: {self.username}>"
+        return f"<User {self.username}>"
 
-    id = db.Column(
-        db.Integer,
+    username = db.Column(
+        db.Text,
+        nullable=False,
         primary_key=True,
     )
 
     email = db.Column(
-        db.Text,
-        nullable=False,
-        unique=True,
-    )
-
-    username = db.Column(
         db.Text,
         nullable=False,
         unique=True,
@@ -52,9 +47,20 @@ class User(db.Model):
         nullable=False,
     )
 
-    # messages = db.relationship('Message', backref='users')
-
     rentals = db.relationship('Rental', backref='users')
+
+    reservations = db.relationship('Reservation', backref='users')
+
+    def serialize(self):
+        """Serialize to dictionary."""
+
+        return {
+            "username": self.username,
+            "email": self.email,
+            "image_url": self.image_url,
+            "bio": self.bio,
+            "location": self.location
+        }
 
     @classmethod
     def signup(cls, username, email, password, image_url=DEFAULT_IMAGE_URL):
@@ -96,7 +102,7 @@ class Rental(db.Model):
     __tablename__ = 'rentals'
 
     def __repr__(self):
-        return f"<Rental #{self.id}: {self.username}>"
+        return f"<Rental #{self.id}: {self.description}>"
 
     id = db.Column(
         db.Integer,
@@ -118,13 +124,24 @@ class Rental(db.Model):
         nullable=False
     )
 
-    owner_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete='CASCADE'),
+    owner_username = db.Column(
+        db.Text,
+        db.ForeignKey('users.username', ondelete='CASCADE'),
         nullable=False,
     )
 
     reservations = db.relationship('Reservation', backref='rentals')
+
+    def serialize(self):
+        """Serialize to dictionary."""
+
+        return {
+            "id": self.id,
+            "description": self.description,
+            "location": self.location,
+            "price": self.price,
+            "owner_username": self.owner_username
+        }
 
 
 class Reservation(db.Model):
@@ -152,6 +169,23 @@ class Reservation(db.Model):
         db.ForeignKey('rentals.id', ondelete='CASCADE'),
         nullable=False,
     )
+
+    renter = db.Column(
+        db.Text,
+        db.ForeignKey('users.username', ondelete='CASCADE'),
+        nullable=False
+    )
+
+    def serialize(self):
+        """Serialize to dictionary."""
+
+        return {
+            "id": self.id,
+            "date": self.date,
+            "rating": self.rating,
+            "rental_id": self.rental_id,
+            "renter": self.renter
+        }
 
 
 def connect_db(app):
