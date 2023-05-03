@@ -250,7 +250,7 @@ class Reservation(db.Model):
             "rental_id": self.rental_id,
             "renter": self.renter
         }
-        
+
 
 
 def connect_db(app):

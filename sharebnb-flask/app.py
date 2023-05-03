@@ -1,7 +1,6 @@
 from flask import Flask, request, redirect, render_template, flash, jsonify
 from werkzeug.exceptions import Unauthorized
 from flask_debugtoolbar import DebugToolbarExtension
-import requests
 import os
 from dotenv import load_dotenv
 from models import db, connect_db, User, Rental, Reservation
@@ -36,22 +35,22 @@ def signup():
     print(user_data, 'THE USER DATA IN SIGNUP')
 
     if (not user_data['image_url']):
-      new_user = User.signup(username=user_data['username'], 
-                           password=user_data['password'], 
+      new_user = User.signup(username=user_data['username'],
+                           password=user_data['password'],
                            email=user_data['email'],
                            location=user_data['location'] or None,
                            bio=user_data['bio'] or None)
 
-    new_user = User.signup(username=user_data['username'], 
-                           password=user_data['password'], 
+    new_user = User.signup(username=user_data['username'],
+                           password=user_data['password'],
                            email=user_data['email'],
                            image_url=user_data['image_url'],
                            location=user_data['location'] or None,
                            bio=user_data['bio'] or None)
-    
+
     db.session.commit()
     token = create_jwt(user_data["username"])
-    
+
     return jsonify(token=token)
 
 @app.post('/login')
@@ -60,12 +59,12 @@ def login():
 
     login_data = request.get_json()
     print(login_data, 'THE LOGIN DATA')
-    login_status = User.authenticate(username=login_data['username'], 
+    login_status = User.authenticate(username=login_data['username'],
                                      password=login_data['password'])
-    
+
     if (login_status == False):
         return Unauthorized()
-    
+
     token = create_jwt(login_data["username"])
 
     return jsonify(token=token)
@@ -124,17 +123,17 @@ def add_rental():
 
     return 'rentals/username/add'
 
-@app.patch('/rentals/<username>/<int:rental_id>', methods=['PATCH'])
-def edit_rental():
-    """Allows a user to edit a rental"""
+# @app.patch('/rentals/<username>/<int:rental_id>', methods=['PATCH'])
+# def edit_rental():
+#     """Allows a user to edit a rental"""
 
-    return "/rentals/<username>/<int:rental_id>"
+#     return "/rentals/<username>/<int:rental_id>"
 
-@app.post('/rentals/<int:rental_id>/new-reservation')
-def add_reservation():
-    """Allows a user to book a new reservation"""
+# @app.post('/rentals/<int:rental_id>/new-reservation')
+# def add_reservation():
+#     """Allows a user to book a new reservation"""
 
-    return '/rentals/<int:rental_id>/new-reservation'
+#     return '/rentals/<int:rental_id>/new-reservation'
 
 ##############################################################################
 # User routes:
