@@ -132,6 +132,8 @@ class Rental(db.Model):
 
     reservations = db.relationship('Reservation', backref='rentals')
 
+    ratings = db.relationship('Rating', backref='rentals')
+
     def serialize(self):
         """Serialize to dictionary."""
 
@@ -143,6 +145,38 @@ class Rental(db.Model):
             "owner_username": self.owner_username
         }
 
+class Rating(db.Model):
+    """ Rating for each rental """
+
+    __tablename__ = 'ratings'
+
+    def __repr__(self):
+        return f"<Rating #{self.id}: {self.rental_id} rating: {self.rating}>"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    rating = db.Column(
+        db.Integer,
+        nullable=False
+    )
+
+    rental_id = db.Column(
+        db.Integer,
+        db.ForeignKey('rentals.id', ondelete='CASCADE'),
+        nullable=False,
+    )
+
+    def serialize(self):
+        """Serialize to dictionary."""
+
+        return {
+            "id": self.id,
+            "rating": self.rating,
+            "rental_id": self.rental_id
+        }
 
 class Reservation(db.Model):
     """ Reservation on each rental """

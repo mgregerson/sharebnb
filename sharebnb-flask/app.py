@@ -4,14 +4,14 @@ from flask_debugtoolbar import DebugToolbarExtension
 import os
 from dotenv import load_dotenv
 from models import db, connect_db, User, Rental, Reservation
+from sqlalchemy import and_
 
 load_dotenv()
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///sharebnb'
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///sharebnb')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
@@ -19,6 +19,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 debug = DebugToolbarExtension(app)
 
 connect_db(app)
+
 
 db.create_all()
 
@@ -43,6 +44,34 @@ def get_rental(rental_id):
     serialized = rental.serialize()
 
     return jsonify(rental=serialized)
+
+@app.get('/rentals/<username>')
+def get_user_rentals(username):
+    """Returns json data of all rentals for a single user"""
+
+    user = User.query.get_or_404(username)
+
+    rentals = user.rentals
+
+    serialized = [r.serialize() for r in rentals]
+
+    return jsonify(rentals=serialized)
+
+@app.get('/rentals/<username>/<int:rental_id>')
+def get_user_rental(username, rental_id):
+    """Returns json data of single user's rental"""
+
+    rental = Rental.query.filter(
+        and_(Rental.id == rental_id, Rental.owner_username == username)
+    ).first()
+
+    if (not rental):
+        return jsonify(rental=None)
+
+    serialized = rental.serialize()
+
+    return jsonify(rental=serialized)
+
 
 ##############################################################################
 # User routes:
@@ -70,31 +99,32 @@ def get_user_reservations(username):
     reservations = Reservation.query.filter(Reservation.renter == username)
     serialized = [r.serialize() for r in reservations]
 
-    return jsonify(reservations=serialized);
+    return jsonify(reservations=serialized)
 
 @app.get('/reservations/<username>/<int:reservation_id>')
 def get_user_reservation(username, reservation_id):
     """Returns json data of a single user reservation"""
 
     reservation = Reservation.query.filter(
-        Reservation.renter == username and
-        Reservation.id == reservation_id
+        and_(Reservation.renter == username, Reservation.id == reservation_id)
     ).first()
+
+    if (not reservation):
+        return jsonify(reservation=None)
+
     serialized = reservation.serialize()
 
     return jsonify(reservation=serialized)
 
 
 
-
-
 # /user/username (Profile Page)  (finished)
 # /reservations/user (All their reservations)   (finished)
-# /user/reservations/int:reservation-id (A single reservation)
-# /user/rentals (All their rentals)
-# /user/rentals/int:rental-id (A single rental)
-# /user/messages (All their messages)
-# /user/messages/int:message-id (A single message)
+# /user/reservations/int:reservation-id (A single reservation)  (finished)
+# /rentals/username (All their rentals)  (finished)
+# /rentals/username/int:rental-id (A single rental)
+# /messages/username (All their messages)
+# /messages/username/int:message-id (A single message)
 
 ##############################################################################
 # User signup/login/logout
