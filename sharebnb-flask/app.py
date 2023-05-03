@@ -40,7 +40,7 @@ def signup():
     print(user_data, 'THE USER DATA IN SIGNUP')
 
     if (not user_data['image_url']):
-        new_user = User.signup(username=user_data['username'], 
+      new_user = User.signup(username=user_data['username'], 
                            password=user_data['password'], 
                            email=user_data['email'],
                            location=user_data['location'] or None,
@@ -58,44 +58,42 @@ def signup():
     
     return jsonify(token=token)
 
-# @app.route('/signup', methods=["POST"])
-# def signup():
-#     """Handle user signup.
+@app.post('/login')
+def login():
+    """Handle user login"""
 
-#     Create new user and add to DB. Redirect to home page.
+    login_data = request.get_json()
+    print(login_data, 'THE LOGIN DATA')
+    login_status = User.authenticate(username=login_data['username'], 
+                                     password=login_data['password'])
+    
+    if (login_status == False):
+        return Unauthorized()
+    
+    token = create_jwt(login_data["username"])
 
-#     If form not valid, present form.
+    return jsonify(token=token)
 
-#     If the there already is a user with that username: flash message
-#     and re-present form.
-#     """
 
-#     if CURR_USER_KEY in session:
-#         del session[CURR_USER_KEY]
-#     form = UserAddForm()
+# @app.route('/login', methods=["GET", "POST"])
+# def login():
+#     """Handle user login and redirect to homepage on success."""
+
+#     form = LoginForm()
 
 #     if form.validate_on_submit():
-#         try:
-#             user = User.signup(
-#                 username=form.username.data,
-#                 password=form.password.data,
-#                 email=form.email.data,
-#                 image_url=form.image_url.data or User.image_url.default.arg,
-#             )
-#             db.session.commit()
+#         user = User.authenticate(
+#             form.username.data,
+#             form.password.data)
 
-#         except IntegrityError:
-#             flash("Username already taken", 'danger')
-#             return render_template('users/signup.html', form=form)
+#         if user:
+#             do_login(user)
+#             flash(f"Hello, {user.username}!", "success")
+#             return redirect("/")
 
-#         do_login(user)
+#         flash("Invalid credentials.", 'danger')
 
-#         return redirect("/")
-
-#     else:
-#         return render_template('users/signup.html', form=form)
-
-
+#     return render_template('users/login.html', form=form)
 
 
 
