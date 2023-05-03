@@ -4,14 +4,14 @@ import './AddRentalForm.css'
 /** Form to add rental
  *
  * Props:
- *  -
+ *  - addRentalSpace: parent function to call
  *
  * State:
  *  - formData: data about rental
  *
  * User -> AddRentalForm
  */
-function AddRentalForm({}) {
+function AddRentalForm({ addRentalSpace }) {
 
   const initialFormData = {
     description: '',
@@ -20,16 +20,32 @@ function AddRentalForm({}) {
   }
 
   const [formData, setFormData] = useState(initialFormData);
-  const [photos, setPhotos] = useState(null);
+  const [photos, setPhotos] = useState('');
 
   /**  */
   function handleChange(evt) {
+    const { name, value } = evt.target
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  }
 
+  function handlePhotoUploadChange(evt) {
+    const { name, value } = evt.target;
+    setPhotos({
+      ...photos,
+      [name]: value
+    });
   }
 
   /**  */
   function handleSubmit(evt) {
-
+    evt.preventDefault();
+    addRentalSpace({
+      rentalData: formData,
+      rentalPhotos: photos
+    });
   }
 
   return (
@@ -62,6 +78,13 @@ function AddRentalForm({}) {
         placeholder='price'
         onChange={handleChange}
       />
+      <input
+        type='file'
+        onChange={handlePhotoUploadChange}
+        name='photos'
+        value={photos}
+      />
+      <button>Add Space</button>
     </form>
   );
 }
