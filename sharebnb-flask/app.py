@@ -20,12 +20,12 @@ debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
-db.drop_all()
+
 db.create_all()
 
 
 ##############################################################################
-# Rentals routes: 
+# Rentals routes:
 
 @app.get('/rentals')
 def get_rentals():
@@ -46,15 +46,15 @@ def get_rental(rental_id):
     return jsonify(rental=serialized)
 
 ##############################################################################
-# User routes: 
+# User routes:
 
-@app.get('/users/<user_username>')
-def get_user(user_username):
+@app.get('/users/<username>')
+def get_user(username):
     """Returns json data a user + all rentals they have"""
-    user = User.query.get_or_404(user_username)
+    user = User.query.get_or_404(username)
     print(user, 'THE user in user/username')
     serialized_user = user.serialize()
-    rentals = Rental.query.filter(Rental.owner_username == user_username).all()
+    rentals = Rental.query.filter(Rental.owner_username == username).all()
     serialized_rentals = [r.serialize() for r in rentals]
 
     return jsonify(user=serialized_user, rentals=serialized_rentals)
@@ -62,21 +62,38 @@ def get_user(user_username):
 
 
 ##############################################################################
-# Reservations routes: 
+# Reservations routes:
 
-@app.get('/reservations/<user_username>/')
-def get_user_reservations(user_username):
+@app.get('/reservations/<username>/')
+def get_user_reservations(username):
     """Returns json data of all of a user's reservations"""
 
-    reservations = Reservation.query.filter(Reservation.renter == user_username)
+    reservations = Reservation.query.filter(Reservation.renter == username)
     serialized = [r.serialize() for r in reservations]
 
     return jsonify(reservations=serialized);
 
+@app.get('/reservations/<username>/<int:reservation_id>')
+def get_user_reservation(username, reservation_id):
+    """Returns json data of a single user reservation"""
+    user = Rental.query.all()
+
+    reservation = Reservation.query.filter(
+        Reservation.renter == username and
+        Reservation.id == reservation_id
+    )
+    breakpoint()
+    print(reservation)
+    serialized = reservation.serialize()
+
+    return jsonify(reservation=serialized)
 
 
-# /user (Profile Page)
-# /user/reservations (All their reservations)
+
+
+
+# /user/username (Profile Page)  (finished)
+# /reservations/user (All their reservations)   (finished)
 # /user/reservations/int:reservation-id (A single reservation)
 # /user/rentals (All their rentals)
 # /user/rentals/int:rental-id (A single rental)
