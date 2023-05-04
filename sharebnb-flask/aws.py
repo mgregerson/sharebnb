@@ -29,7 +29,7 @@ def upload_file(file_name, bucket=bucket, object_name=None):
 
     # Upload the file
     s3_client = s3
-    print('s3_client:', s3_client)
+
     try:
         response = s3_client.upload_file(file_name, bucket, object_name)
         return response

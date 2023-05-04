@@ -124,12 +124,28 @@ def get_rentals():
 @app.post('/rentals/<username>/add')
 def add_rental(username):
     """Allows a user to add a new rental"""
+    print('route is RUNNING')
     rental = request.get_json()
+    print('rental:', rental['rentalData'])
+
     photo_data = rental['rentalPhotos']
-    print(photo_data, 'THE PHOTO DATA')
+
     decode_and_upload_photo(photo_data)
 
-    return jsonify(rental)
+    rd = rental['rentalData']
+
+    rental_data = Rental.add_rental(
+        description=rd['description'],
+        location=rd['location'],
+        price=int(rd['price']),
+        owner_username=username
+    )
+
+    db.session.commit()
+
+    serialized = rental_data.serialize()
+
+    return jsonify(rental=serialized)
 
 @app.get('/rentals/<int:rental_id>')
 def get_rental(rental_id):

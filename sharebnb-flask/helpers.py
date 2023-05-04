@@ -13,7 +13,7 @@ def create_jwt(username):
         "username": username
     }
     token = jwt.encode(payload, secret, algorithm="HS256")
-    print(token, 'THE ENCODED JWT')
+
 
     return token
 
