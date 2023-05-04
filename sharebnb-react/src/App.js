@@ -1,7 +1,8 @@
 import "./App.css";
-import AddRentalForm from "./AddRentalForm";
+import { BrowserRouter } from "react-router-dom";
 import { useState } from "react";
 import shareBnbApi from "./api";
+import RoutesList from "./RoutesList";
 
 /**
  *
@@ -12,6 +13,7 @@ function App() {
   const [user, setUser] = useState(null);
   /**  */
   async function addRentalSpace(rental) {
+    console.log('rental:', rental);
     const newRental = await shareBnbApi.addRental(rental);
     console.log(newRental);
 
@@ -27,7 +29,9 @@ function App() {
 
   return (
     <div className="App">
-      <AddRentalForm addRentalSpace={addRentalSpace} />
+      <BrowserRouter>
+        <RoutesList addRentalSpace={addRentalSpace} />
+      </BrowserRouter>
     </div>
   );
 }

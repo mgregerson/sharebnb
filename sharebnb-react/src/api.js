@@ -1,12 +1,13 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5001";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
 
 class shareBnbApi {
-  static token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
-    ".eyJ1c2VybmFtZSI6IkpvaG4gU21pdGgifQ" +
-    ".t_lzxBsYc6BNfwldAFC3LWEsmqd2TI-s6dqtbJ7VNZk";
+  static token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
+  ".eyJ1c2VybmFtZSI6IkpvaG4gU21pdGgifQ" +
+  ".t_lzxBsYc6BNfwldAFC3LWEsmqd2TI-s6dqtbJ7VNZk";
+  // static token =`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lIn0.EnOOQMZOPEZ2tm0Z-lhS38IqsOK-Wt_bDbHeQuQ2N7A`
+
 
   static async request(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, data, method, this.token);
@@ -16,8 +17,9 @@ class shareBnbApi {
     const params = method === "get" ? data : {};
 
     try {
-      return (await axios({ url, method, data, params, headers })).data;
+      return (await axios({ url, method, data, params, headers})).data;   // TODO: re-add headers to object argument
     } catch (err) {
+      console.log('err:', err);
       console.error("API Error:", err.response);
       let message = err.response.data.error.message;
       throw Array.isArray(message) ? message : [message];
@@ -25,7 +27,8 @@ class shareBnbApi {
   }
 
   static async addRental(inputData) {
-    let res = await this.request("rentals/john_doe/add", { inputData }, "post");
+    console.log('inputData: ', inputData)
+    let res = await this.request(`rentals/john_doe/add`, inputData, "post");
     return res.rental;
   }
 }

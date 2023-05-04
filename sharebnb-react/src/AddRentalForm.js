@@ -39,7 +39,7 @@ function AddRentalForm({ addRentalSpace }) {
   /** converts file to encoded-64 string and sets photo state */
   function readFile(file) {
     const reader = new FileReader();
-    reader.onloadend = (evt) => {
+    reader.onloadend = () => {
       setPhoto(reader.result);
     };
     reader.readAsDataURL(file);
