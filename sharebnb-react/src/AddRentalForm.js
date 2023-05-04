@@ -30,10 +30,16 @@ function AddRentalForm({ addRentalSpace }) {
     });
   }
 
+  console.log(formData, "FORM DATA");
+
   /** Calls read file function with target file */
   function handlePhotoUploadChange(evt) {
     const file = evt.target.files[0];
     readFile(file);
+    setFormData((formData) => ({
+      ...formData,
+      url: file.name,
+    }));
   }
 
   /** converts file to encoded-64 string and sets photo state */
@@ -51,6 +57,7 @@ function AddRentalForm({ addRentalSpace }) {
   /** Calls function in parent prop to submit form data */
   function handleSubmit(evt) {
     evt.preventDefault();
+
     addRentalSpace({
       rentalData: formData,
       rentalPhotos: photo,

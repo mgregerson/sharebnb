@@ -1,14 +1,14 @@
 import axios from "axios";
-import jwt_decode from 'jwt-decode'
+import jwt_decode from "jwt-decode";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000"; // "http://localhost:5001";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5001"; // "http://localhost:5001";
 
 class shareBnbApi {
-  // static token =
-  //   // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
-  //   // ".eyJ1c2VybmFtZSI6IkpvaG4gU21pdGgifQ" +
-  //   // ".t_lzxBsYc6BNfwldAFC3LWEsmqd2TI-s6dqtbJ7VNZk";
-  static token =`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lIn0.EnOOQMZOPEZ2tm0Z-lhS38IqsOK-Wt_bDbHeQuQ2N7A`
+  static token = "";
+  // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
+  // ".eyJ1c2VybmFtZSI6IkpvaG4gU21pdGgifQ" +
+  // ".t_lzxBsYc6BNfwldAFC3LWEsmqd2TI-s6dqtbJ7VNZk";
+  // static token =`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lIn0.EnOOQMZOPEZ2tm0Z-lhS38IqsOK-Wt_bDbHeQuQ2N7A`
 
   static async request(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, data, method, this.token);
@@ -27,12 +27,57 @@ class shareBnbApi {
     }
   }
 
-  static async addRental(inputData) {
+  // Auth
 
+  /** POST Register new user function */
+
+  static async registerUser(inputData) {
+    const { username, password, email, image_url, bio, location } = inputData;
+    console.log(inputData, "THE INPUT DATA");
+    let res = await this.request(
+      "signup",
+      { username, password, email, image_url, bio, location },
+      "post"
+    );
+
+    console.log(res, "THE RES");
+
+    this.token = res.token;
+    return this.token;
+  }
+
+  /** POST Login user */
+
+  static async loginUser(inputData) {
+    const { username, password } = inputData;
+    let res = await this.request(`login`, { username, password }, "post");
+    this.token = res.token;
+    return this.token;
+  }
+
+  /** GET Gets user data */
+
+  static async getUser(username) {
+    let res = await this.request(`users/${username}`);
+    return res.user;
+  }
+
+  /** GET All user rentals */
+
+  static async getRentals(inputData) {
     const { username } = jwt_decode(this.token);
 
-    let res = await this.request(`rentals/john_doe/add`, inputData, "post");
+    let res = await this.request(`rentals/${username}`);
+    console.log(res, "THE RENTALS in api");
+    return res.rentals;
+  }
 
+  /** POST Add new rental */
+
+  static async addRental(inputData) {
+    const { username } = jwt_decode(this.token);
+
+    let res = await this.request(`rentals/${username}/add`, inputData, "post");
     return res.rental;
   }
 }
