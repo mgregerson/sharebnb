@@ -7,6 +7,10 @@ from dotenv import load_dotenv
 from models import db, connect_db, User, Rental, Reservation
 from sqlalchemy import and_
 from helpers import create_jwt
+import base64
+from io import BytesIO
+from PIL import Image
+from aws import upload_file
 
 BASE_URL = "http://127.0.0.1:"
 
@@ -27,6 +31,40 @@ connect_db(app)
 
 
 DEFAULT_IMAGE_URL = "/static/images/default_profile_img.png"
+
+photo_test = {
+    "url": 'alsdfhlasdjlfasd.kpg',
+    "bytes": 'asdojhfasdf'
+}
+def decode_and_upload_photo(photo_data):
+    """Decodes a 64byte photo and uploads to s3 bucket"""
+
+    url = photo_data['url']
+    print(photo_data['bytes'], 'INITIAL BYTES')
+    returned_bytes = photo_data['bytes'][len('data:image/jpeg;base64,'):]
+    img_bytes = base64.b64decode(returned_bytes)
+    # print(img_bytes, 'IMG BYTES')
+    img_io = BytesIO(img_bytes)
+    # print(img_io, 'THE IMG IO')
+    with open(f'rental_pics/{url}', 'wb') as f:
+        f.write(img_io.read())
+    pillow_img = Image.open(img_io)
+    pillow_img.show()
+    upload_file(f'rental_pics/{url}')
+
+
+#  # Load the bytes object into a BytesIO buffer
+# buffer = BytesIO(image_bytes)
+
+# # Use Pillow's Image.open method to create a Pillow Image object from the bytes
+# pillow_image = Image.open(buffer)
+
+# You can now manipulate the image using Pillow methods
+# For example, you can save the image to a file using the `save()` method
+# pillow_image.save("output.jpg")
+    
+    # print(img, 'THE IMG AFTER OPEN')
+    # resized_img = img.resize((200, 200))
 
 
 ##############################################################################
@@ -99,11 +137,11 @@ def get_rentals():
 @app.post('/rentals/<username>/add')
 def add_rental(username):
     """Allows a user to add a new rental"""
-    print('POST ROUTE IS WORKING NOW')
     rental = request.get_json()
-
-    print(rental, 'THE RENTAL DATA IN PYTHON')
-
+    photo_data = rental['rentalPhotos']
+    print(photo_data, 'THE PHOTO DATA')
+    decode_and_upload_photo(photo_data)
+    
     return jsonify(rental)
 
 @app.get('/rentals/<int:rental_id>')
