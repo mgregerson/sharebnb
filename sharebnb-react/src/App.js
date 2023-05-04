@@ -30,7 +30,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <RoutesList addRentalSpace={addRentalSpace} />
+        <RoutesList addRentalSpace={addRentalSpace} user={user} />
       </BrowserRouter>
     </div>
   );
