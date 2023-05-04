@@ -31,7 +31,7 @@ class shareBnbApi {
 
     const { username } = jwt_decode(this.token);
 
-    let res = await this.request(`rentals/${username}/add`, inputData, "post");
+    let res = await this.request(`rentals/john_doe/add`, inputData, "post");
 
     return res.rental;
   }

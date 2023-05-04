@@ -4,12 +4,17 @@ import { useNavigate } from "react-router-dom";
  *
  */
 function UserProfile({ user }) {
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate(`/rentals/john_doe/add`);
+  }
 
   return (
     <div className='UserProfile'>
       <h1>Welcome John Doe </h1>
-      <ul>{user.rentals}</ul>
-      <button onClick={useNavigate(`/rentals/${user.username}/add`)} >
+      <ul>{}</ul>
+      <button onClick={handleClick} >
         Add a rental
       </button>
     </div>

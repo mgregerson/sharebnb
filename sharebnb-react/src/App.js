@@ -9,8 +9,16 @@ import RoutesList from "./RoutesList";
  *
  */
 function App() {
+  const initialUser = {
+    username: '',
+    bio: '',
+    image_url: '',
+    location: ''
+  }
+
   const [rentalSpaces, setRentalSpaces] = useState(null);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(initialUser);
+
   /**  */
   async function addRentalSpace(rental) {
     console.log('rental:', rental);
