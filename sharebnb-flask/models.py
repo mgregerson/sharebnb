@@ -6,8 +6,6 @@ from datetime import datetime
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 
-DEFAULT_IMAGE_URL = "/static/images/default_profile_img.png"
-
 
 class User(db.Model):
     """ User in the system """
@@ -31,7 +29,7 @@ class User(db.Model):
 
     image_url = db.Column(
         db.Text,
-        default=DEFAULT_IMAGE_URL,
+        nullable=True,
     )
 
     bio = db.Column(
@@ -63,7 +61,7 @@ class User(db.Model):
         }
 
     @classmethod
-    def signup(cls, username, email, password, location, bio, image_url=DEFAULT_IMAGE_URL):
+    def signup(cls, username, email, password, location, bio, image_url):
         """Sign up user. Hashes password and adds to db"""
 
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
@@ -73,8 +71,8 @@ class User(db.Model):
             email=email,
             password=hashed_pwd,
             location=location,
-            image_url=image_url,
-            bio=bio
+            bio=bio,
+            image_url=image_url
         )
 
         db.session.add(user)

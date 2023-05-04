@@ -25,6 +25,10 @@ debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
+
+DEFAULT_IMAGE_URL = "/static/images/default_profile_img.png"
+
+
 ##############################################################################
 # User signup/login
 
@@ -36,21 +40,30 @@ def signup():
 
     print(user_data, 'THE USER DATA IN SIGNUP')
 
-    if (not user_data['image_url']):
-      new_user = User.signup(username=user_data['username'],
-                           password=user_data['password'],
-                           email=user_data['email'],
-                           location=user_data['location'] or None,
-                           bio=user_data['bio'] or None)
+    if ('image_url' in user_data):
+        print('FIRST IF STATEMENT IS RUNNING')
+        User.signup(
+            username=user_data['username'],
+            password=user_data['password'],
+            email=user_data['email'],
+            location=user_data['location'] or None,
+            bio=user_data['bio'] or None,
+            image_url=user_data['image_url'],
+        )
+    else:
+        user_data['image_url'] = DEFAULT_IMAGE_URL
 
-    new_user = User.signup(username=user_data['username'],
-                           password=user_data['password'],
-                           email=user_data['email'],
-                           image_url=user_data['image_url'],
-                           location=user_data['location'] or None,
-                           bio=user_data['bio'] or None)
+        User.signup(
+            username=user_data['username'],
+            password=user_data['password'],
+            email=user_data['email'],
+            location=user_data['location'] or None,
+            bio=user_data['bio'] or None,
+            image_url=user_data['image_url'],
+        )
 
     db.session.commit()
+
     token = create_jwt(user_data["username"])
 
     return jsonify(token=token)
@@ -64,7 +77,7 @@ def login():
     login_status = User.authenticate(username=login_data['username'],
                                      password=login_data['password'])
 
-    if (login_status == False):
+    if (login_status is False):
         return Unauthorized()
 
     token = create_jwt(login_data["username"])
@@ -82,6 +95,16 @@ def get_rentals():
     serialized = [r.serialize() for r in rentals]
 
     return jsonify(rentals=serialized)
+
+@app.post('/rentals/<username>/add')
+def add_rental(username):
+    """Allows a user to add a new rental"""
+    print('POST ROUTE IS WORKING NOW')
+    rental = request.get_json()
+
+    print(rental, 'THE RENTAL DATA IN PYTHON')
+
+    return jsonify(rental)
 
 @app.get('/rentals/<int:rental_id>')
 def get_rental(rental_id):
@@ -104,6 +127,7 @@ def get_user_rentals(username):
 
     return jsonify(rentals=serialized)
 
+
 @app.get('/rentals/<username>/<int:rental_id>')
 def get_user_rental(username, rental_id):
     """Returns json data of single user's rental"""
@@ -119,14 +143,6 @@ def get_user_rental(username, rental_id):
 
     return jsonify(rental=serialized)
 
-@app.post('/rentals/<username>/add')
-def add_rental(username):
-    """Allows a user to add a new rental"""
-
-    rental_data = request.get_json()
-    print(rental_data, 'THE RENTAL DATA IN PYTHON')
-
-    return 'rentals/username/add'
 
 # @app.patch('/rentals/<username>/<int:rental_id>', methods=['PATCH'])
 # def edit_rental():
