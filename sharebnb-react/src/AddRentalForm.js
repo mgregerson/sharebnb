@@ -40,7 +40,10 @@ function AddRentalForm({ addRentalSpace }) {
   function readFile(file) {
     const reader = new FileReader();
     reader.onloadend = () => {
-      setPhoto(reader.result);
+      setPhoto({
+        url: file.name,
+        bytes: reader.result,
+      });
     };
     reader.readAsDataURL(file);
   }
