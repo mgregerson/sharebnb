@@ -63,9 +63,9 @@ def signup():
 
     user_data  = request.get_json()
 
-    print(user_data, 'THE USER DATA IN SIGNUP')
+    
 
-    if ('image_url' in user_data):
+    if (user_data['image_url'] != ''):
         print('FIRST IF STATEMENT IS RUNNING')
         User.signup(
             username=user_data['username'],
@@ -76,6 +76,7 @@ def signup():
             image_url=user_data['image_url'],
         )
     else:
+        print('SECOND IF STATEMENT IS RUNNING')
         user_data['image_url'] = DEFAULT_IMAGE_URL
 
         User.signup(
