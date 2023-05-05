@@ -7,6 +7,7 @@ import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 import Rental from "./Rental";
 import Homepage from "./Homepage";
+import RentalsList from "./RentalsList.js";
 
 /**  */
 function RoutesList({
@@ -28,6 +29,7 @@ function RoutesList({
           path="/login"
           element={<LoginForm handleLogin={handleLogin} />}
         />
+        <Route path="/rentals" element={<RentalsList />} />
         <Route
           path="/rentals/:username/add"
           element={

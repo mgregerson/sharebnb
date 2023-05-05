@@ -57,6 +57,13 @@ class shareBnbApi {
 
   /** GET Gets user data */
 
+  static async getAllRentals() {
+    let res = await this.request(`rentals`);
+    return res.rentals;
+  }
+
+  /** GET Gets user data */
+
   static async getUser(username) {
     let res = await this.request(`users/${username}`);
     return res.user;
