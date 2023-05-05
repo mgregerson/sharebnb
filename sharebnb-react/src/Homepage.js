@@ -25,7 +25,7 @@ function Homepage({ user }) {
             <h3>If not, take a look at some others and get outside!</h3>
           </div>
         ) : (
-          <p className="lead">Find Your Dream Job</p>
+          <p className="lead">Let's Get You Outside!</p>
         )}
       </div>
     </div>
