@@ -1,0 +1,9 @@
+.Rental.card {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffe5b4;
+}
+
+.Rental {
+  color: black;
+}

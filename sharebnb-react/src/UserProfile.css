@@ -1,0 +1,12 @@
+.UserProfile.card {
+  background-color: peachpuff;
+}
+
+.card-title,
+.card-subtitle {
+  color: navy;
+}
+
+.card-text {
+  color: rgb(71, 67, 67);
+}

@@ -1,3 +1,5 @@
+import "./Rental.css";
+
 /**
  *
  * @
@@ -12,7 +14,7 @@ function Rental({ rentalInfo, photos }) {
         <h6 className="Rental card-subtitle mb-2 text-muted">
           Location: {location}
         </h6>
-        <p className="Rental card-text">Price: {price}/day</p>
+        <p className="Rental card-text">Price: ${price}/day</p>
       </div>
     </div>
   );
