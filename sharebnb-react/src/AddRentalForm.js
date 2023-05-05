@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AddRentalForm.css";
+// import { v4 as uuid } from 'uuid'
 
 /** Form to add rental
  *
@@ -11,7 +13,9 @@ import "./AddRentalForm.css";
  *
  * User -> AddRentalForm
  */
-function AddRentalForm({ addRentalSpace }) {
+function AddRentalForm({ addRentalSpace, user }) {
+  const navigate = useNavigate();
+
   const initialFormData = {
     description: "",
     location: "",
@@ -58,10 +62,14 @@ function AddRentalForm({ addRentalSpace }) {
   function handleSubmit(evt) {
     evt.preventDefault();
 
+    // formData.id = uuid();
+
     addRentalSpace({
       rentalData: formData,
       rentalPhotos: photo,
     });
+
+    navigate(`/rentals/${user.username}`)
   }
 
   return (

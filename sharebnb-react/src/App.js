@@ -17,13 +17,15 @@ function App() {
     location: "",
   };
 
-  const [rentalSpaces, setRentalSpaces] = useState(null);
+  const [rentalSpaces, setRentalSpaces] = useState([]);
   const [user, setUser] = useState(initialUser);
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   console.log(user, "THE USER");
   console.log(token, "THE TOKEN IN APP");
   console.log(rentalSpaces, "THE RENTAL SPACES");
+
+
 
   /**  */
   async function addRentalSpace(rental) {
@@ -43,6 +45,7 @@ function App() {
         try {
           const user = await shareBnbApi.getUser(username);
           const rentals = await shareBnbApi.getRentals(username);
+          console.log('rentals:', rentals);
           setUser(user);
           setRentalSpaces(rentals);
         } catch (err) {
@@ -51,7 +54,7 @@ function App() {
       }
       if (token) {
         const { username } = jwt_decode(token);
-        console.log(username, "THE USERNAME IN TOKEN CHANGE");
+
         shareBnbApi.token = token;
         getUserAndRentals(username);
         localStorage.setItem("token", token);
@@ -67,10 +70,12 @@ function App() {
 
   async function handleLogin(formData) {
     const token = await shareBnbApi.loginUser(formData);
+    console.log('TOKEN:', token);
     setToken(token);
   }
 
   console.log(rentalSpaces, "THE RENTAL SPACES");
+
 
   return (
     <div className="App">

@@ -13,9 +13,9 @@ db.session.commit()
 
 # Add Rentals
 
-miami = Rental.add_rental('Beautiful beachside backyard', 'Miami, FL', 1500, 'john_doe')
-ny = Rental.add_rental('Patio on Upper East Side', 'NY, NY', 1000, 'alex_smith')
-sf = Rental.add_rental('Private park!', 'San Francisco, CA', 2000, 'jane_doe')
+miami = Rental.add_rental('Beautiful beachside backyard', 'Miami, FL', 1500, 'john_doe', '')
+ny = Rental.add_rental('Patio on Upper East Side', 'NY, NY', 1000, 'alex_smith', '')
+sf = Rental.add_rental('Private park!', 'San Francisco, CA', 2000, 'jane_doe', '')
 
 db.session.commit()
 

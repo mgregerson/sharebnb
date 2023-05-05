@@ -1,17 +1,17 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import Rental from "./Rental";
 
 /** UserProfile
  *
  */
 function UserProfile({ user, rentalSpaces }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   console.log(rentalSpaces, "THE RENTALS IN USERPROF");
 
-  function handleClick() {
-    navigate(`/rentals/john_doe/add`);
-  }
+  // function handleClick() {
+  //   navigate(`/rentals/john_doe/add`);
+  // }
 
   return (
     <div className="UserProfile">
@@ -27,3 +27,6 @@ function UserProfile({ user, rentalSpaces }) {
 }
 
 export default UserProfile;
+
+
+

@@ -3,6 +3,7 @@ import AddRentalForm from "./AddRentalForm";
 import UserProfile from "./UserProfile.js";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
+import Rental from './Rental';
 
 /**  */
 function RoutesList({
@@ -25,11 +26,15 @@ function RoutesList({
         />
         <Route
           path="/rentals/:username/add"
-          element={<AddRentalForm addRentalSpace={addRentalSpace} />}
+          element={<AddRentalForm addRentalSpace={addRentalSpace} user={user} />}
         />
         <Route
           path="/rentals/:username"
           element={<UserProfile user={user} rentalSpaces={rentalSpaces} />}
+        />
+        <Route
+          path="/rentals/:username/:rental-id"
+          element={<Rental user={user} rentalSpaces={rentalSpaces} />}
         />
       </Routes>
     </div>

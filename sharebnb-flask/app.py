@@ -10,7 +10,8 @@ from helpers import create_jwt
 import base64
 from io import BytesIO
 from PIL import Image
-from aws import upload_file
+from aws import upload_file, download
+
 
 BASE_URL = "http://127.0.0.1:"
 
@@ -53,6 +54,18 @@ def decode_and_upload_photo(photo_data):
 
     os.remove(f'rental_pics/{url}')
 
+def download_and_encode_photo(rental):
+    """Downloads photo form s3 and encodes it to 64-bits to send in json"""
+
+    photo = download(rental['url'])
+
+    encoded_photo = base64.b64encode(photo)
+
+    print('encoded-photo:', encoded_photo)
+
+    return encoded_photo
+
+
 
 ##############################################################################
 # User signup/login
@@ -63,7 +76,7 @@ def signup():
 
     user_data  = request.get_json()
 
-    
+
 
     if (user_data['image_url'] != ''):
         print('FIRST IF STATEMENT IS RUNNING')
@@ -139,7 +152,8 @@ def add_rental(username):
         description=rd['description'],
         location=rd['location'],
         price=int(rd['price']),
-        owner_username=username
+        owner_username=username,
+        url=rd['url']
     )
 
     db.session.commit()
@@ -148,11 +162,15 @@ def add_rental(username):
 
     return jsonify(rental=serialized)
 
-@app.get('/rentals/<int:rental_id>')
-def get_rental(rental_id):
+@app.get('/rentals/<username>/<int:rental_id>')
+def get_rental(username, rental_id):
     """Returns json data of one rental"""
     rental = Rental.query.get_or_404(rental_id)
     print(rental, 'THE RENTAL IN get_rental')
+
+    encoded_photo = download_and_encode_photo(rental)
+    print('encoded_photo_in_route', encoded_photo)
+
     serialized = rental.serialize()
 
     return jsonify(rental=serialized)

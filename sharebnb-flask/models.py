@@ -124,6 +124,11 @@ class Rental(db.Model):
         nullable=False
     )
 
+    url = db.Column(
+        db.String(100),
+        nullable=True
+    )
+
     owner_username = db.Column(
         db.Text,
         db.ForeignKey('users.username', ondelete='CASCADE'),
@@ -135,7 +140,7 @@ class Rental(db.Model):
     ratings = db.relationship('Rating', backref='rentals')
 
     @classmethod
-    def add_rental(cls, description, location, price, owner_username):
+    def add_rental(cls, description, location, price, owner_username, url):
         """Class method to add a rental to the database"""
 
         rental = Rental(
@@ -143,6 +148,7 @@ class Rental(db.Model):
             location=location,
             price=price,
             owner_username=owner_username,
+            url=url
         )
 
         db.session.add(rental)

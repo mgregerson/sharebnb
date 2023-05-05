@@ -42,7 +42,7 @@ function LoginForm({ handleLogin }) {
     evt.preventDefault();
     try {
       await handleLogin(formData);
-      navigate(`rentals/${formData.username}`);
+      navigate(`/rentals/${formData.username}`);
     } catch (err) {
       console.log(err);
       setApiError({
