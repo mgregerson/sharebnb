@@ -11,6 +11,8 @@ function Rental({ id }) {
   const [isLoading, setIsLoading] = useState(true);
   const [rental, setRental] = useState(null);
 
+  console.log(rental);
+
   async function getRental() {
     const rental = await shareBnbApi.getRental(id);
     setRental(rental);
@@ -32,6 +34,10 @@ function Rental({ id }) {
           Location: {rental.location}
         </h6>
         <p className="Rental card-text">Price: {rental.price}/day</p>
+        <img
+          className="Rental-photo"
+          src={`https://sharebnb-mg-bj.s3.amazonaws.com/${rental.url}`}
+        />
       </div>
     </div>
   );

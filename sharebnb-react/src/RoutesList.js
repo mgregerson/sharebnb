@@ -43,10 +43,10 @@ function RoutesList({
             path="/rentals/:username"
             element={<UserProfile user={user} rentalSpaces={rentalSpaces} />}
           />
-          <Route
+          {/* <Route
             path="/rentals/:rentalId"
             element={<Rental user={user} rentalSpaces={rentalSpaces} />}
-          />
+          /> */}
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </div>

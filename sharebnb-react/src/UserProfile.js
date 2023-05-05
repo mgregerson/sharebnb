@@ -12,9 +12,6 @@ import "./UserProfile.css";
  */
 function UserProfile({ user, rentalSpaces }) {
   // const navigate = useNavigate();
-  console.log(rentalSpaces, "THE RENTALS IN USERPROF");
-  const test = rentalSpaces.map((r) => r);
-  console.log(user.bio, "THE DESCCCC");
 
   // TODO: Form says that .map doesn't work after you submit a new rental space
 

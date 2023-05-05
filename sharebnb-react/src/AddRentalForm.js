@@ -69,7 +69,7 @@ function AddRentalForm({ addRentalSpace, user }) {
       rentalPhotos: photo,
     });
 
-    navigate(`/rentals/${user.username}`);
+    navigate(`/`);
   }
 
   return (

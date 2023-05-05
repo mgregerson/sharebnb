@@ -33,15 +33,43 @@ connect_db(app)
 
 DEFAULT_IMAGE_URL = "/static/images/default_profile_img.png"
 
-photo_test = {
-    "url": 'alsdfhlasdjlfasd.kpg',
-    "bytes": 'asdojhfasdf'
-}
+
+
+# const params = {
+#   Bucket: 'my_bucket',
+#   Key: 'MDSD.pdf',
+#   Body: fileContent,
+#   ACL: 'public-read',
+#   ContentDisposition: 'attachment; filename=test.pdf',
+# };
+
+# s3.upload(params, function (err, data) {
+#   if (err) {
+#     throw err;
+#   }
+#   console.log(`File uploaded successfully. \${data.Location}`);
+# });
+
+# s3.upload_fileobj(
+#         file,
+#         bucket_name,
+#         file_key,
+#         ExtraArgs={
+#             'ContentType': content_type,
+#             'ContentDisposition': 'attachment; filename="{}"'.format(file.filename)
+#         }
+#     )
+
+#     response = make_response('File uploaded successfully')
+#     response.headers['Content-Disposition'] = 'attachment; filename="{}"'.format(file.filename)
+#     return response
+
+
 def decode_and_upload_photo(photo_data):
     """Decodes a 64byte photo and uploads to s3 bucket"""
 
     url = photo_data['url']
-
+    #TODO: Grab the mimetype off of the URL (Look up a module to do so)
     returned_bytes = photo_data['bytes'][len('data:image/jpeg;base64,'):]
 
     img_bytes = base64.b64decode(returned_bytes)
@@ -55,15 +83,24 @@ def decode_and_upload_photo(photo_data):
     os.remove(f'rental_pics/{url}')
 
 def download_and_encode_photo(image_url):
-    """Downloads photo form s3 and encodes it to 64-bits to send in json
+    """Downloads photo from s3 and encodes it to 64-bits to send in json
     
     CHANGED TO IMAGE_URL DIRECTLY"""
 
-    # encoded_photo = base64.b64encode(image_url)
+    photo_download = download(image_url) #backyard.jpeg
+
+    print(photo_download, 'the photo download')
+
+    with open(f'rental_pics/{image_url}', 'wb') as f:
+        encoded_string = base64.b64encode(f.read())
+        print(encoded_string, 'the encoded string')
+    # bytes_url = bytes(image_url, 'utf-8')
+
+    # encoded_photo = base64.b64encode(bytes_url)
 
     # print('encoded-photo:', encoded_photo)
 
-    # return encoded_photo
+    return encoded_string
 
 
 ##############################################################################
@@ -190,10 +227,11 @@ def get_user_rental(rental_id):
 
     # RENTAL URL DIDNT EXIST FROM QUERY. HAD TO SERIALIZE FIRST
 
-    if serialized['url'] != '':
-      image_url = serialized['url']
-      encoded_photo = download_and_encode_photo(image_url)
-      print('encoded_photo_in_route', encoded_photo)
+    # if serialized['url'] != '':
+    #   image_url = serialized['url']
+    #   print(image_url, 'THE IMAGE URL')
+    #   encoded_photo = download_and_encode_photo(image_url)
+    #   print('encoded_photo_in_route', encoded_photo)
 
     print(serialized, 'THE SERIALIZED RENTAL')
 

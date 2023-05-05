@@ -65,7 +65,6 @@ function App() {
   function logOut(formData) {
     setUser(null);
     setToken(null);
-    // Call removeItem instead of setItem
     localStorage.removeItem("token");
   }
 
@@ -79,8 +78,6 @@ function App() {
     console.log("TOKEN:", token);
     setToken(token);
   }
-
-  console.log(rentalSpaces, "THE RENTAL SPACES");
 
   return (
     <div className="App">

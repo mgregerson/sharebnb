@@ -14,7 +14,11 @@ s3 = boto3.client(
 bucket = os.getenv('BUCKET_NAME')
 
 
-def upload_file(file_name, bucket=bucket, object_name=None):
+
+
+def upload_file(file_name, 
+                bucket=bucket, 
+                object_name=None):
     """Upload a file to an S3 bucket
 
     :param file_name: File to upload
@@ -26,24 +30,29 @@ def upload_file(file_name, bucket=bucket, object_name=None):
     # If S3 object_name was not specified, use file_name
     if object_name is None:
         object_name = os.path.basename(file_name)
-
+    # TODO: GET MIMETYPE of file_name to pass into ContentType in ExtraArgs below.
     # Upload the file
     s3_client = s3
 
     try:
-        response = s3_client.upload_file(file_name, bucket, object_name)
+        response = s3_client.upload_file(file_name, bucket, object_name, ExtraArgs={'ContentDisposition': 'inline', 
+                                                                                    'ContentType': 'image/jpeg'})
         return response
     except ClientError as e:
         logging.error(e)
         return False
 
 def download(file_name, bucket=bucket, object_name=None ):
-    """  """
+    """"""
 
     if object_name is None:
         object_name = os.path.basename(file_name)
 
-    output = s3.download_file(bucket, object_name, file_name)
+    s3_client = s3
+    # output = s3.Bucket(bucket).download_file(file_name, file_name)
+    output = s3_client.download_file(bucket, object_name, file_name)
+    # s3.Bucket(BUCKET_NAME).download_file(KEY, 'my_local_image.jpg')
+    print(output, 'the output')
     return output
 
 def list_all_files(bucket):
