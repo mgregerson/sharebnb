@@ -173,13 +173,12 @@ def get_user_rentals(username):
 
     return jsonify(rentals=serialized)
 
-
-@app.get('/rentals/<username>/<int:rental_id>')
-def get_user_rental(username, rental_id):
+@app.get('/rentals/<int:rental_id>')
+def get_user_rental(rental_id):
     """Returns json data of single user's rental"""
 
     rental = Rental.query.filter(
-        and_(Rental.id == rental_id, Rental.owner_username == username)
+        and_(Rental.id == rental_id)
     ).first()
 
     if (not rental):
@@ -199,6 +198,7 @@ def get_user_rental(username, rental_id):
     print(serialized, 'THE SERIALIZED RENTAL')
 
     return jsonify(rental=serialized)
+
 
 
 # @app.patch('/rentals/<username>/<int:rental_id>', methods=['PATCH'])

@@ -79,6 +79,13 @@ class shareBnbApi {
     return res.rentals;
   }
 
+  static async getRental(id) {
+    console.log(id, "THE ID IN GET RENTAL");
+    let res = await this.request(`/rentals/${id}`);
+    console.log(res, "THE RES in GET RENTAL");
+    return res.rental;
+  }
+
   /** POST Add new rental */
 
   static async addRental(inputData) {

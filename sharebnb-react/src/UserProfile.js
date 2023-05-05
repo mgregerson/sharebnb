@@ -28,7 +28,7 @@ function UserProfile({ user, rentalSpaces }) {
         </div>
       </div>
       {rentalSpaces.map((rental) => (
-        <Rental key={rental.id} rentalInfo={rental} />
+        <Rental key={rental.id} id={rental.id} rentalInfo={rental} />
       ))}
     </div>
   );
