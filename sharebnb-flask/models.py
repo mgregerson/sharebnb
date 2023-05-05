@@ -162,7 +162,8 @@ class Rental(db.Model):
             "description": self.description,
             "location": self.location,
             "price": self.price,
-            "owner_username": self.owner_username
+            "owner_username": self.owner_username,
+            "url": self.url
         }
 
 class Rating(db.Model):
