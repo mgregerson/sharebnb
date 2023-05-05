@@ -54,17 +54,16 @@ def decode_and_upload_photo(photo_data):
 
     os.remove(f'rental_pics/{url}')
 
-def download_and_encode_photo(rental):
-    """Downloads photo form s3 and encodes it to 64-bits to send in json"""
+def download_and_encode_photo(image_url):
+    """Downloads photo form s3 and encodes it to 64-bits to send in json
+    
+    CHANGED TO IMAGE_URL DIRECTLY"""
 
-    photo = download(rental['url'])
+    # encoded_photo = base64.b64encode(image_url)
 
-    encoded_photo = base64.b64encode(photo)
+    # print('encoded-photo:', encoded_photo)
 
-    print('encoded-photo:', encoded_photo)
-
-    return encoded_photo
-
+    # return encoded_photo
 
 
 ##############################################################################
@@ -162,19 +161,6 @@ def add_rental(username):
 
     return jsonify(rental=serialized)
 
-@app.get('/rentals/<username>/<int:rental_id>')
-def get_rental(username, rental_id):
-    """Returns json data of one rental"""
-    rental = Rental.query.get_or_404(rental_id)
-    print(rental, 'THE RENTAL IN get_rental')
-
-    encoded_photo = download_and_encode_photo(rental)
-    print('encoded_photo_in_route', encoded_photo)
-
-    serialized = rental.serialize()
-
-    return jsonify(rental=serialized)
-
 @app.get('/rentals/<username>')
 def get_user_rentals(username):
     """Returns json data of all rentals for a single user"""
@@ -198,8 +184,19 @@ def get_user_rental(username, rental_id):
 
     if (not rental):
         return jsonify(rental=None)
-
+    
+    print(rental, 'THE RENTAL')
+    
     serialized = rental.serialize()
+
+    # RENTAL URL DIDNT EXIST FROM QUERY. HAD TO SERIALIZE FIRST
+
+    if serialized['url'] != '':
+      image_url = serialized['url']
+      encoded_photo = download_and_encode_photo(image_url)
+      print('encoded_photo_in_route', encoded_photo)
+
+    print(serialized, 'THE SERIALIZED RENTAL')
 
     return jsonify(rental=serialized)
 
