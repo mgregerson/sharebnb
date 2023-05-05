@@ -1,24 +1,29 @@
 // import { useNavigate } from "react-router-dom";
 import Rental from "./Rental";
+import userContext from "./userContext.js";
+import { useContext } from "react";
 
 /** UserProfile
  *
  */
 function UserProfile({ user, rentalSpaces }) {
   // const navigate = useNavigate();
-
   console.log(rentalSpaces, "THE RENTALS IN USERPROF");
-
-  // function handleClick() {
-  //   navigate(`/rentals/john_doe/add`);
-  // }
+  const test = rentalSpaces.map((r) => r);
+  console.log(test);
+  console.log(user.bio, "THE DESCCCC");
 
   return (
-    <div className="UserProfile">
-      {/* <img src={`${user.image_url}`} /> */}
-      <h1>{user.username}</h1>
-      <h3>{user.description}</h3>
-      <h4>{user.location}</h4>
+    <div class="UserProfile">
+      <div class="card m-5 col-12 text-center">
+        <div class="card-body">
+          <h3 class="card-title m-2">Hi, I'm {user.username}!</h3>
+          <h4 class="card-subtitle m-2 text-muted">
+            Location: {user.location}
+          </h4>
+          <h4 class="card-text m-2">About Me: {user.bio}</h4>
+        </div>
+      </div>
       {rentalSpaces.map((rental) => (
         <Rental rentalInfo={rental} />
       ))}
@@ -27,6 +32,3 @@ function UserProfile({ user, rentalSpaces }) {
 }
 
 export default UserProfile;
-
-
-

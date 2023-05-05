@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./LoginForm.css";
 
 /** Signup Form
  *
@@ -42,7 +43,7 @@ function LoginForm({ handleLogin }) {
     evt.preventDefault();
     try {
       await handleLogin(formData);
-      navigate(`/rentals/${formData.username}`);
+      navigate(`/`);
     } catch (err) {
       console.log(err);
       setApiError({
@@ -53,46 +54,44 @@ function LoginForm({ handleLogin }) {
   }
 
   return (
-    <div className="LoginForm">
-      <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-        <h1 className="SignupForm-Message">Sign Up</h1>
-        <div className="card">
-          <div className="card-body">
-            <form className="LoginForm-Form" onSubmit={handleSubmit}>
-              <label htmlFor="username">Username</label>
-              <input
-                id="username"
-                name="username"
-                className="form-control form-control-lg"
-                onChange={handleChange}
-                value={formData.username}
-                aria-label="username"
-                placeholder="username"
-                required
-              />
-              <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                name="password"
-                className="form-control form-control-lg"
-                onChange={handleChange}
-                value={formData.password}
-                aria-label="password"
-                type="password"
-                placeholder="password"
-                minLength="5"
-                required
-              />
-              <div className="LoginForm-button d-grid">
-                <button className="btn search-btn btn-lg btn-primary">
-                  Login
-                </button>
-              </div>
-            </form>
-          </div>
+    <div className="LoginForm col-md-12 col-lg-12">
+      <h2 className="LoginForm-Message text-center">Login</h2>
+      <div className="card">
+        <div className="card-body">
+          <form className="LoginForm-Form" onSubmit={handleSubmit}>
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              name="username"
+              className="form-control form-control-lg"
+              onChange={handleChange}
+              value={formData.username}
+              aria-label="username"
+              placeholder="username"
+              required
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              className="form-control form-control-lg"
+              onChange={handleChange}
+              value={formData.password}
+              aria-label="password"
+              type="password"
+              placeholder="password"
+              minLength="5"
+              required
+            />
+            <div className="LoginForm-button d-grid">
+              <button className="btn search-btn btn-lg btn-primary">
+                Login
+              </button>
+            </div>
+          </form>
         </div>
-        {apiError.isError && <p>{apiError.errorMessage}</p>}
       </div>
+      {apiError.isError && <p>{apiError.errorMessage}</p>}
     </div>
   );
 }

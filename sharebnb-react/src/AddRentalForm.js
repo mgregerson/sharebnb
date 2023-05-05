@@ -69,41 +69,66 @@ function AddRentalForm({ addRentalSpace, user }) {
       rentalPhotos: photo,
     });
 
-    navigate(`/rentals/${user.username}`)
+    navigate(`/rentals/${user.username}`);
   }
 
   return (
-    <form className="AddRentalForm" onSubmit={handleSubmit}>
+    <form
+      className="AddRentalForm mt-5 container-sm rounded shadow"
+      onSubmit={handleSubmit}
+    >
       <h1>Rent out your open space!</h1>
-      <label htmlFor="description">Description </label>
-      <textarea
-        id="description"
-        className="AddRentalForm-input"
-        name="description"
-        value={formData.description}
-        placeholder="description"
-        onChange={handleChange}
-      />
-      <label htmlFor="location">Location </label>
-      <input
-        id="location"
-        className="AddRentalForm-input"
-        name="location"
-        value={formData.location}
-        placeholder="location"
-        onChange={handleChange}
-      />
-      <label htmlFor="price">Cost to rent per day in USD </label>
-      <input
-        id="price"
-        className="AddRentalForm-input"
-        name="price"
-        value={formData.price}
-        placeholder="price"
-        onChange={handleChange}
-      />
-      <input type="file" onChange={handlePhotoUploadChange} name="photos" />
-      <button>Add Space</button>
+      <div className="form-group">
+        <label htmlFor="description" className="text-center mb-2">
+          Description
+        </label>
+        <textarea
+          id="description"
+          className="form-control"
+          name="description"
+          value={formData.description}
+          placeholder="description"
+          onChange={handleChange}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="location" className="text-center mb-2">
+          Location
+        </label>
+        <input
+          id="location"
+          className="form-control"
+          name="location"
+          value={formData.location}
+          placeholder="location"
+          onChange={handleChange}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="price" className="text-center mb-2">
+          Cost to rent per day in USD
+        </label>
+        <input
+          id="price"
+          className="form-control"
+          name="price"
+          value={formData.price}
+          placeholder="price"
+          onChange={handleChange}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="photos" className="text-center mb-2">
+          Photos
+        </label>
+        <input
+          type="file"
+          onChange={handlePhotoUploadChange}
+          name="photos"
+          className="form-control"
+        />
+      </div>
+      <button className="btn btn-primary m-2">Add Space</button>
     </form>
   );
 }

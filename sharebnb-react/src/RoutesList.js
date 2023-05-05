@@ -1,21 +1,25 @@
 import { Routes, Route } from "react-router-dom";
+import userContext from "./userContext.js";
+import { useContext } from "react";
 import AddRentalForm from "./AddRentalForm";
 import UserProfile from "./UserProfile.js";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
-import Rental from './Rental';
+import Rental from "./Rental";
+import Homepage from "./Homepage";
 
 /**  */
 function RoutesList({
   addRentalSpace,
-  user,
   handleSignup,
   handleLogin,
   rentalSpaces,
 }) {
+  const { user } = useContext(userContext);
   return (
     <div className="RoutesList">
       <Routes>
+        <Route path="/" element={<Homepage user={user} />} />
         <Route
           path="/signup"
           element={<SignupForm handleSignup={handleSignup} />}
@@ -26,16 +30,18 @@ function RoutesList({
         />
         <Route
           path="/rentals/:username/add"
-          element={<AddRentalForm addRentalSpace={addRentalSpace} user={user} />}
+          element={
+            <AddRentalForm addRentalSpace={addRentalSpace} user={user} />
+          }
         />
         <Route
           path="/rentals/:username"
           element={<UserProfile user={user} rentalSpaces={rentalSpaces} />}
         />
-        <Route
+        {/* <Route
           path="/rentals/:username/:rental-id"
           element={<Rental user={user} rentalSpaces={rentalSpaces} />}
-        />
+        /> */}
       </Routes>
     </div>
   );

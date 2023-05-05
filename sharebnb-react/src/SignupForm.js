@@ -58,8 +58,8 @@ function SignupForm({ handleSignup }) {
 
   return (
     <div className="SignupForm">
-      <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-        <h1 className="SignupForm-Message">Sign Up</h1>
+      <div className="container col-md-12 col-lg-12">
+        <h1 className="SignupForm-Message text-center text-light">Sign Up</h1>
         <div className="card">
           <div className="card-body">
             <form className="SignupForm-Form" onSubmit={handleSubmit}>
@@ -133,7 +133,7 @@ function SignupForm({ handleSignup }) {
                 required
               />
               <div className="SignupForm-button d-grid">
-                <button className="btn search-btn btn-lg btn-primary">
+                <button className="btn search-btn btn-lg btn-primary m-2">
                   Submit
                 </button>
               </div>

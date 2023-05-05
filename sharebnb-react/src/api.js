@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000"; // "http://localhost:5001";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5001"; // ;
 
 class shareBnbApi {
   static token = "";

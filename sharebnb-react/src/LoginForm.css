@@ -1,0 +1,11 @@
+.LoginForm-button {
+  margin-top: 10px;
+}
+
+.LoginForm-Message {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-shadow: 2px 2px 5px #34302f;
+  color: white;
+  font-size: 30px;
+}

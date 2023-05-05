@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import shareBnbApi from "./api";
 import RoutesList from "./RoutesList";
 import jwt_decode from "jwt-decode";
-
+import Nav from "./Nav";
+import userContext from "./userContext.js";
 /**
  *
  *
@@ -25,8 +26,6 @@ function App() {
   console.log(token, "THE TOKEN IN APP");
   console.log(rentalSpaces, "THE RENTAL SPACES");
 
-
-
   /**  */
   async function addRentalSpace(rental) {
     console.log("rental:", rental);
@@ -45,7 +44,7 @@ function App() {
         try {
           const user = await shareBnbApi.getUser(username);
           const rentals = await shareBnbApi.getRentals(username);
-          console.log('rentals:', rentals);
+          console.log("rentals:", rentals);
           setUser(user);
           setRentalSpaces(rentals);
         } catch (err) {
@@ -63,6 +62,13 @@ function App() {
     [token]
   );
 
+  function logOut(formData) {
+    setUser(null);
+    setToken(null);
+    // Call removeItem instead of setItem
+    localStorage.removeItem("token");
+  }
+
   async function handleSignup(formData) {
     const token = await shareBnbApi.registerUser(formData);
     setToken(token);
@@ -70,24 +76,25 @@ function App() {
 
   async function handleLogin(formData) {
     const token = await shareBnbApi.loginUser(formData);
-    console.log('TOKEN:', token);
+    console.log("TOKEN:", token);
     setToken(token);
   }
 
   console.log(rentalSpaces, "THE RENTAL SPACES");
 
-
   return (
     <div className="App">
-      <BrowserRouter>
-        <RoutesList
-          addRentalSpace={addRentalSpace}
-          rentalSpaces={rentalSpaces}
-          user={user}
-          handleSignup={handleSignup}
-          handleLogin={handleLogin}
-        />
-      </BrowserRouter>
+      <userContext.Provider value={{ user }}>
+        <BrowserRouter>
+          <Nav logOut={logOut} />
+          <RoutesList
+            addRentalSpace={addRentalSpace}
+            rentalSpaces={rentalSpaces}
+            handleSignup={handleSignup}
+            handleLogin={handleLogin}
+          />
+        </BrowserRouter>
+      </userContext.Provider>
     </div>
   );
 }

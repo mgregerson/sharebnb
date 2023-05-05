@@ -1,4 +1,9 @@
 .AddRentalForm {
   display: flex;
   flex-direction: column;
+  background-color: #ffe5b4;
+}
+
+label {
+  text-align: center;
 }
