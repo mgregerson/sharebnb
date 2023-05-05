@@ -74,7 +74,6 @@ def decode_and_upload_photo(photo_data):
     # returned_bytes = photo_data['bytes'][index:]
 
     returned_bytes = photo_data['bytes'].split(',', 1)[1].strip()
-    print('returned_bytes', returned_bytes)
 
     img_bytes = base64.b64decode(returned_bytes)
     img_io = BytesIO(img_bytes)
@@ -86,25 +85,22 @@ def decode_and_upload_photo(photo_data):
 
     os.remove(f'rental_pics/{url}')
 
-def download_and_encode_photo(image_url):
-    """Downloads photo from s3 and encodes it to 64-bits to send in json
+# def download_and_encode_photo(image_url):
+#     """Downloads photo from s3 and encodes it to 64-bits to send in json
 
-    CHANGED TO IMAGE_URL DIRECTLY"""
+#     CHANGED TO IMAGE_URL DIRECTLY"""
 
-    photo_download = download(image_url) #backyard.jpeg
+#     photo_download = download(image_url) #backyard.jpeg
 
-    print(photo_download, 'the photo download')
+#     with open(f'rental_pics/{image_url}', 'wb') as f:
+#         encoded_string = base64.b64encode(f.read())
+#     # bytes_url = bytes(image_url, 'utf-8')
 
-    with open(f'rental_pics/{image_url}', 'wb') as f:
-        encoded_string = base64.b64encode(f.read())
-        print(encoded_string, 'the encoded string')
-    # bytes_url = bytes(image_url, 'utf-8')
+#     # encoded_photo = base64.b64encode(bytes_url)
 
-    # encoded_photo = base64.b64encode(bytes_url)
+#     # print('encoded-photo:', encoded_photo)
 
-    # print('encoded-photo:', encoded_photo)
-
-    return encoded_string
+#     return encoded_string
 
 
 ##############################################################################
@@ -116,10 +112,7 @@ def signup():
 
     user_data  = request.get_json()
 
-
-
     if (user_data['image_url'] != ''):
-        print('FIRST IF STATEMENT IS RUNNING')
         User.signup(
             username=user_data['username'],
             password=user_data['password'],
@@ -129,7 +122,6 @@ def signup():
             image_url=user_data['image_url'],
         )
     else:
-        print('SECOND IF STATEMENT IS RUNNING')
         user_data['image_url'] = DEFAULT_IMAGE_URL
 
         User.signup(
@@ -152,7 +144,6 @@ def login():
     """Handle user login"""
 
     login_data = request.get_json()
-    print(login_data, 'THE LOGIN DATA')
     login_status = User.authenticate(username=login_data['username'],
                                      password=login_data['password'])
 
@@ -170,7 +161,6 @@ def login():
 def get_rentals():
     """Returns json data of all rentals"""
     rentals = Rental.query.all()
-    print(rentals, 'THE RENTALS IN get_rentals')
     serialized = [r.serialize() for r in rentals]
 
     return jsonify(rentals=serialized)
@@ -178,9 +168,8 @@ def get_rentals():
 @app.post('/rentals/<username>/add')
 def add_rental(username):
     """Allows a user to add a new rental"""
-    print('route is RUNNING')
+
     rental = request.get_json()
-    print('rental:', rental['rentalData'])
 
     photo_data = rental['rentalPhotos']
 
@@ -225,19 +214,7 @@ def get_user_rental(rental_id):
     if (not rental):
         return jsonify(rental=None)
 
-    print(rental, 'THE RENTAL')
-
     serialized = rental.serialize()
-
-    # RENTAL URL DIDNT EXIST FROM QUERY. HAD TO SERIALIZE FIRST
-
-    # if serialized['url'] != '':
-    #   image_url = serialized['url']
-    #   print(image_url, 'THE IMAGE URL')
-    #   encoded_photo = download_and_encode_photo(image_url)
-    #   print('encoded_photo_in_route', encoded_photo)
-
-    print(serialized, 'THE SERIALIZED RENTAL')
 
     return jsonify(rental=serialized)
 
@@ -262,7 +239,6 @@ def get_user_rental(rental_id):
 def get_user(username):
     """Returns json data a user + all rentals they have"""
     user = User.query.get_or_404(username)
-    print(user, 'THE user in user/username')
     serialized_user = user.serialize()
     rentals = Rental.query.filter(Rental.owner_username == username).all()
     serialized_rentals = [r.serialize() for r in rentals]

@@ -14,7 +14,7 @@ function Homepage({ user }) {
     <div className="Homepage">
       <div className="container text-center my-auto">
         <h1 className="mb-4 fw-bold">ShareBnB</h1>
-        {user ? (
+        {user?.username ? (
           <div className="Homepage-login">
             <h1>Welcome, {user.username}!</h1>
             <br></br>

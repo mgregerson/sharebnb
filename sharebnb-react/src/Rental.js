@@ -1,6 +1,7 @@
 import "./Rental.css";
 import { useState } from "react";
 import shareBnbApi from "./api";
+import { Link } from "react-router-dom";
 
 /**
  *
@@ -28,6 +29,12 @@ function Rental({ id }) {
   return (
     <div className="Rental card mb-3">
       <div className="Rental card-body">
+        <Link
+          to={`/rentals/${rental.owner_username}`}
+          className="Rental card-owner"
+        >
+          <h5>Renter: {rental.owner_username}</h5>
+        </Link>
         <h5 className="Rental card-title">{rental.description}</h5>
         <h6 className="Rental card-subtitle mb-2 text-muted">
           Location: {rental.location}
@@ -35,7 +42,8 @@ function Rental({ id }) {
         <p className="Rental card-text">Price: {rental.price}/day</p>
         <img
           className="Rental-photo"
-          src={`https://sharebnb-mg-bj.s3.amazonaws.com/${rental.url}`} alt={rental.url}
+          src={`https://sharebnb-mg-bj.s3.amazonaws.com/${rental.url}`}
+          alt={rental.url}
         />
       </div>
     </div>

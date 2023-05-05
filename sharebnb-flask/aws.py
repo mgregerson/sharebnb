@@ -25,7 +25,7 @@ def upload_file(file_name,
     :param file_name: File to upload
     :param bucket: Bucket to upload to
     :param object_name: S3 object name. If not specified then file_name is used
-    :return: True if file was uploaded, else False
+    :return: Response if file was uploaded, else False
     """
 
     mimetype, encoding = mimetypes.guess_type(file_name)
@@ -34,8 +34,7 @@ def upload_file(file_name,
     # If S3 object_name was not specified, use file_name
     if object_name is None:
         object_name = os.path.basename(file_name)
-    # TODO: GET MIMETYPE of file_name to pass into ContentType in ExtraArgs below.
-    # Upload the file
+
     s3_client = s3
 
     try:
@@ -47,15 +46,20 @@ def upload_file(file_name,
         return False
 
 def download(file_name, bucket=bucket, object_name=None ):
-    """"""
+    """Downloads file from AWS S3 bucket
+    :param file_name: File to upload
+    :param bucket: Bucket to upload to
+    :param object_name: S3 object name. If not specified then file_name is used
+    :return: Output of downloaded file
+    """
 
     if object_name is None:
         object_name = os.path.basename(file_name)
 
     s3_client = s3
-    # output = s3.Bucket(bucket).download_file(file_name, file_name)
+
     output = s3_client.download_file(bucket, object_name, file_name)
-    # s3.Bucket(BUCKET_NAME).download_file(KEY, 'my_local_image.jpg')
+
     print(output, 'the output')
     return output
 

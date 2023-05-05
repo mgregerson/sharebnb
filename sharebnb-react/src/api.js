@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000"; // ;
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5001"; // ;
 
 class shareBnbApi {
   static token = "";
@@ -79,6 +79,8 @@ class shareBnbApi {
     return res.rentals;
   }
 
+  /** Get a rental by ID */
+
   static async getRental(id) {
     console.log(id, "THE ID IN GET RENTAL");
     let res = await this.request(`/rentals/${id}`);
@@ -86,6 +88,12 @@ class shareBnbApi {
     return res.rental;
   }
 
+  /** Get All rentals of another user. */
+
+  static async getRentalsForUser(username) {
+    let res = await this.request(`rentals/${username}`);
+    return res.rentals;
+  }
   /** POST Add new rental */
 
   static async addRental(inputData) {
