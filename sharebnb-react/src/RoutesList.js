@@ -8,6 +8,7 @@ import LoginForm from "./LoginForm";
 import Rental from "./Rental";
 import Homepage from "./Homepage";
 import RentalsList from "./RentalsList.js";
+import NotFound from "./NotFound.js";
 
 /**  */
 function RoutesList({
@@ -17,6 +18,41 @@ function RoutesList({
   rentalSpaces,
 }) {
   const { user } = useContext(userContext);
+
+  if (user) {
+    return (
+      <div className="RoutesList">
+        <Routes>
+          <Route path="/" element={<Homepage user={user} />} />
+          <Route
+            path="/signup"
+            element={<SignupForm handleSignup={handleSignup} />}
+          />
+          <Route
+            path="/login"
+            element={<LoginForm handleLogin={handleLogin} />}
+          />
+          <Route path="/rentals" element={<RentalsList />} />
+          <Route
+            path="/rentals/:username/add"
+            element={
+              <AddRentalForm addRentalSpace={addRentalSpace} user={user} />
+            }
+          />
+          <Route
+            path="/rentals/:username"
+            element={<UserProfile user={user} rentalSpaces={rentalSpaces} />}
+          />
+          {/* <Route
+          path="/rentals/:username/:rental-id"
+          element={<Rental user={user} rentalSpaces={rentalSpaces} />}
+        /> */}
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
+      </div>
+    );
+  }
+
   return (
     <div className="RoutesList">
       <Routes>
@@ -31,19 +67,10 @@ function RoutesList({
         />
         <Route path="/rentals" element={<RentalsList />} />
         <Route
-          path="/rentals/:username/add"
-          element={
-            <AddRentalForm addRentalSpace={addRentalSpace} user={user} />
-          }
-        />
-        <Route
           path="/rentals/:username"
           element={<UserProfile user={user} rentalSpaces={rentalSpaces} />}
         />
-        {/* <Route
-          path="/rentals/:username/:rental-id"
-          element={<Rental user={user} rentalSpaces={rentalSpaces} />}
-        /> */}
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </div>
   );
