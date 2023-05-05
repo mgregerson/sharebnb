@@ -48,7 +48,7 @@ function SignupForm({ handleSignup }) {
     evt.preventDefault();
     try {
       await handleSignup(formData);
-      navigate(`/rentals/${formData.username}`);
+      navigate(`/`);
     } catch (err) {
       console.log(err);
       setApiError({

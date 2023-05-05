@@ -32,10 +32,10 @@ function App() {
     const newRental = await shareBnbApi.addRental(rental);
     console.log(newRental);
 
-    setRentalSpaces((rentalSpaces) => ({
+    setRentalSpaces((rentalSpaces) => ([
       ...rentalSpaces,
       newRental,
-    }));
+    ]));
   }
 
   useEffect(

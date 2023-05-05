@@ -70,7 +70,11 @@ def decode_and_upload_photo(photo_data):
 
     url = photo_data['url']
     #TODO: Grab the mimetype off of the URL (Look up a module to do so)
-    returned_bytes = photo_data['bytes'][len('data:image/jpeg;base64,'):]
+
+    # returned_bytes = photo_data['bytes'][index:]
+
+    returned_bytes = photo_data['bytes'].split(',', 1)[1].strip()
+    print('returned_bytes', returned_bytes)
 
     img_bytes = base64.b64decode(returned_bytes)
     img_io = BytesIO(img_bytes)
@@ -84,7 +88,7 @@ def decode_and_upload_photo(photo_data):
 
 def download_and_encode_photo(image_url):
     """Downloads photo from s3 and encodes it to 64-bits to send in json
-    
+
     CHANGED TO IMAGE_URL DIRECTLY"""
 
     photo_download = download(image_url) #backyard.jpeg
@@ -220,9 +224,9 @@ def get_user_rental(rental_id):
 
     if (not rental):
         return jsonify(rental=None)
-    
+
     print(rental, 'THE RENTAL')
-    
+
     serialized = rental.serialize()
 
     # RENTAL URL DIDNT EXIST FROM QUERY. HAD TO SERIALIZE FIRST

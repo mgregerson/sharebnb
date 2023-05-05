@@ -41,7 +41,7 @@ function RoutesList({
           />
           <Route
             path="/rentals/:username"
-            element={<UserProfile user={user} rentalSpaces={rentalSpaces} />}
+            element={<UserProfile rentalSpaces={rentalSpaces} />}
           />
           {/* <Route
             path="/rentals/:rentalId"

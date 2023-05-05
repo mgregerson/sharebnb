@@ -1,6 +1,8 @@
 // import { useNavigate } from "react-router-dom";
 import Rental from "./Rental";
 import "./UserProfile.css";
+import userContext from "./userContext.js";
+import { useContext } from "react";
 
 /** UserProfile
  *
@@ -10,7 +12,8 @@ import "./UserProfile.css";
  *
  *
  */
-function UserProfile({ user, rentalSpaces }) {
+function UserProfile({ rentalSpaces }) {
+  const { user } = useContext(userContext);
   // const navigate = useNavigate();
 
   // TODO: Form says that .map doesn't work after you submit a new rental space

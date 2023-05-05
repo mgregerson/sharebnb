@@ -1,6 +1,5 @@
 import "./Rental.css";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import shareBnbApi from "./api";
 
 /**
@@ -36,7 +35,7 @@ function Rental({ id }) {
         <p className="Rental card-text">Price: {rental.price}/day</p>
         <img
           className="Rental-photo"
-          src={`https://sharebnb-mg-bj.s3.amazonaws.com/${rental.url}`}
+          src={`https://sharebnb-mg-bj.s3.amazonaws.com/${rental.url}`} alt={rental.url}
         />
       </div>
     </div>
