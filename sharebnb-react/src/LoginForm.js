@@ -26,6 +26,7 @@ function LoginForm({ handleLogin }) {
   });
 
   const navigate = useNavigate();
+  console.log(apiError);
 
   /** Handles keystrokes in searchbar and updates formData */
   function handleChange(evt) {
@@ -48,7 +49,7 @@ function LoginForm({ handleLogin }) {
       console.log(err);
       setApiError({
         isError: true,
-        errorMessage: err,
+        errorMessage: "Invalid username/password",
       });
     }
   }
@@ -91,7 +92,9 @@ function LoginForm({ handleLogin }) {
           </form>
         </div>
       </div>
-      {apiError.isError && <p>{apiError.errorMessage}</p>}
+      {apiError.isError && (
+        <h3 className="LoginForm-Error">{apiError.errorMessage}</h3>
+      )}
     </div>
   );
 }

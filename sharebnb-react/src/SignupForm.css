@@ -1,8 +1,8 @@
-.LoginForm-button {
+.SignupForm-button {
   margin-top: 10px;
 }
 
-.LoginForm-Message {
+.SignupForm-Message {
   padding-top: 10px;
   padding-bottom: 10px;
   text-shadow: 2px 2px 5px #34302f;
@@ -10,7 +10,7 @@
   font-size: 30px;
 }
 
-.LoginForm-Error {
+.SignupForm-Error {
   color: rgb(248, 11, 11);
   text-shadow: 2px 2px 5px #34302f;
 }

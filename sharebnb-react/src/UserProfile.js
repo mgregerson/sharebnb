@@ -19,16 +19,16 @@ function UserProfile({ user, rentalSpaces }) {
   // TODO: Form says that .map doesn't work after you submit a new rental space
 
   return (
-    <div class="UserProfile">
-      <div class="UserProfile card m-5 col-12 text-center">
-        <div class="card-body">
-          <h3 class="card-title m-2">Hi, I'm {user.username}!</h3>
-          <h4 class="card-subtitle m-2">Location: {user.location}</h4>
-          <h4 class="card-text m-2">About Me: {user.bio}</h4>
+    <div className="UserProfile">
+      <div className="UserProfile card m-5 col-12 text-center">
+        <div className="card-body">
+          <h3 className="card-title m-2">Hi, I'm {user.username}!</h3>
+          <h4 className="card-subtitle m-2">Location: {user.location}</h4>
+          <h4 className="card-text m-2">About Me: {user.bio}</h4>
         </div>
       </div>
       {rentalSpaces.map((rental) => (
-        <Rental rentalInfo={rental} />
+        <Rental key={rental.id} rentalInfo={rental} />
       ))}
     </div>
   );

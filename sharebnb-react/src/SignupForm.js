@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./SignupForm.css";
 
 /** Signup Form
  *
@@ -29,6 +30,7 @@ function SignupForm({ handleSignup }) {
   });
 
   const navigate = useNavigate();
+  console.log(apiError, "THE API ERROR IN SIGNUP");
 
   /** Handles keystrokes in searchbar and updates formData */
   function handleChange(evt) {
@@ -51,7 +53,7 @@ function SignupForm({ handleSignup }) {
       console.log(err);
       setApiError({
         isError: true,
-        errorMessage: err,
+        errorMessage: "This username is already taken.",
       });
     }
   }
@@ -140,7 +142,9 @@ function SignupForm({ handleSignup }) {
             </form>
           </div>
         </div>
-        {/* {apiError.isError && <p>{apiError.errorMessage}</p>} */}
+        {apiError.isError && (
+          <h3 className="SignupForm-Error">{apiError.errorMessage}</h3>
+        )}
       </div>
     </div>
   );

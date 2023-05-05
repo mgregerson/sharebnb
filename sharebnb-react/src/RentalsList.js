@@ -23,7 +23,7 @@ function RentalsList() {
     <div className="RentalsList">
       <h1>Check out all rentals available!</h1>
       {rentals.map((rental) => (
-        <Rental rentalInfo={rental} />
+        <Rental key={rental.id} rentalInfo={rental} />
       ))}
     </div>
   );
