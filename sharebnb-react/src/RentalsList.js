@@ -5,16 +5,17 @@ import Rental from "./Rental";
 function RentalsList() {
   const [rentals, setRentals] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
   async function getAllRentals() {
     const rentals = await shareBnbApi.getAllRentals();
     setRentals(rentals);
+    setIsLoading(false);
   }
 
   console.log(rentals, "THE RENTALS IN RENTALSLIST");
 
   if (isLoading === true) {
     getAllRentals();
-    setIsLoading(false);
     return <div className="Loading">Loading Rentals...</div>;
   }
 
