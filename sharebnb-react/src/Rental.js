@@ -28,7 +28,7 @@ function Rental({ id }) {
 
   return (
     <div className="Rental card mb-3">
-      <div className="Rental card-body">
+      <div className="Rental card-body text-center">
         <Link
           to={`/rentals/${rental.owner_username}`}
           className="Rental card-owner"
@@ -39,9 +39,9 @@ function Rental({ id }) {
         <h6 className="Rental card-subtitle mb-2 text-muted">
           Location: {rental.location}
         </h6>
-        <p className="Rental card-text">Price: {rental.price}/day</p>
+        <p className="Rental card-text">Price: ${rental.price}/day</p>
         <img
-          className="Rental-photo"
+          className="Rental-photo mx-auto"
           src={`https://sharebnb-mg-bj.s3.amazonaws.com/${rental.url}`}
           alt={rental.url}
         />

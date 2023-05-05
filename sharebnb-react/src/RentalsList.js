@@ -21,10 +21,14 @@ function RentalsList() {
 
   return (
     <div className="RentalsList">
-      <h1>Check out all rentals available!</h1>
-      {rentals.map((rental) => (
-        <Rental key={rental.id} id={rental.id} />
-      ))}
+      <h1 className="text-center m-2">Check out all rentals available!</h1>
+      <div className="row">
+        {rentals.map((rental) => (
+          <div className="col-md-6">
+            <Rental key={rental.id} id={rental.id} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
