@@ -34,37 +34,6 @@ connect_db(app)
 DEFAULT_IMAGE_URL = "/static/images/default_profile_img.png"
 
 
-
-# const params = {
-#   Bucket: 'my_bucket',
-#   Key: 'MDSD.pdf',
-#   Body: fileContent,
-#   ACL: 'public-read',
-#   ContentDisposition: 'attachment; filename=test.pdf',
-# };
-
-# s3.upload(params, function (err, data) {
-#   if (err) {
-#     throw err;
-#   }
-#   console.log(`File uploaded successfully. \${data.Location}`);
-# });
-
-# s3.upload_fileobj(
-#         file,
-#         bucket_name,
-#         file_key,
-#         ExtraArgs={
-#             'ContentType': content_type,
-#             'ContentDisposition': 'attachment; filename="{}"'.format(file.filename)
-#         }
-#     )
-
-#     response = make_response('File uploaded successfully')
-#     response.headers['Content-Disposition'] = 'attachment; filename="{}"'.format(file.filename)
-#     return response
-
-
 def decode_and_upload_photo(photo_data):
     """Decodes a 64byte photo and uploads to s3 bucket"""
 
@@ -72,7 +41,6 @@ def decode_and_upload_photo(photo_data):
     #TODO: Grab the mimetype off of the URL (Look up a module to do so)
 
     # returned_bytes = photo_data['bytes'][index:]
-    print(photo_data['bytes'])
 
     returned_bytes = photo_data['bytes'].split(',', 1)[1].strip()
 

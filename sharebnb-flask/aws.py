@@ -15,8 +15,6 @@ s3 = boto3.client(
 bucket = os.getenv('BUCKET_NAME')
 
 
-
-
 def upload_file(file_name,
                 bucket=bucket,
                 object_name=None):
@@ -27,9 +25,9 @@ def upload_file(file_name,
     :param object_name: S3 object name. If not specified then file_name is used
     :return: Response if file was uploaded, else False
     """
-
+    
     mimetype, encoding = mimetypes.guess_type(file_name)
-    print('MIMETYPES: ', mimetype)
+    print(bucket);
 
     # If S3 object_name was not specified, use file_name
     if object_name is None:
@@ -60,7 +58,7 @@ def download(file_name, bucket=bucket, object_name=None ):
 
     output = s3_client.download_file(bucket, object_name, file_name)
 
-    print(output, 'the output')
+    
     return output
 
 def list_all_files(bucket):
