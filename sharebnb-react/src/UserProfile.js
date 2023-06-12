@@ -39,10 +39,10 @@ function UserProfile({}) {
   return (
     <div className="UserProfile">
       <div className="UserProfile card m-5 col-6 text-center">
-        <div className="card-body">
-          <h3 className="card-title m-2">Hi, I'm {profile.username}!</h3>
-          <h4 className="card-subtitle m-2">Location: {profile.location}</h4>
-          <h4 className="card-text m-2">About Me: {profile.bio}</h4>
+        <div className="card-body ">
+          <h3 className="card-title m-1">Hi, I'm {profile.username}!</h3>
+          <h4 className="card-subtitle m-1">Location: {profile.location}</h4>
+          <h4 className="card-text m-1">About Me: {profile.bio}</h4>
         </div>
       </div>
       <div className="row">

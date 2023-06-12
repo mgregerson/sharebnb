@@ -8,10 +8,11 @@ class shareBnbApi {
   // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
   // ".eyJ1c2VybmFtZSI6IkpvaG4gU21pdGgifQ" +
   // ".t_lzxBsYc6BNfwldAFC3LWEsmqd2TI-s6dqtbJ7VNZk";
-  // static token =`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lIn0.EnOOQMZOPEZ2tm0Z-lhS38IqsOK-Wt_bDbHeQuQ2N7A`
+  // static token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC
+  // J9.eyJ1c2VybmFtZSI6ImpvaG5fZG9lIn0.EnOOQMZOPEZ2tm0Z-lhS38IqsOK-Wt_bDbHeQuQ2N7A`
 
   static async request(endpoint, data = {}, method = "get") {
-    console.debug("API Call:", endpoint, data, method, this.token);
+    // console.debug("API Call:", endpoint, data, method, this.token);
 
     const url = `${BASE_URL}/${endpoint}`;
     const headers = { Authorization: `Bearer ${shareBnbApi.token}` };
@@ -33,14 +34,11 @@ class shareBnbApi {
 
   static async registerUser(inputData) {
     const { username, password, email, image_url, bio, location } = inputData;
-    console.log(inputData, "THE INPUT DATA");
     let res = await this.request(
       "signup",
       { username, password, email, image_url, bio, location },
       "post"
     );
-
-    console.log(res, "THE RES");
 
     this.token = res.token;
     return this.token;
@@ -75,16 +73,13 @@ class shareBnbApi {
     const { username } = jwt_decode(this.token);
 
     let res = await this.request(`rentals/${username}`);
-    console.log(res, "THE RENTALS in api");
     return res.rentals;
   }
 
   /** Get a rental by ID */
 
   static async getRental(id) {
-    console.log(id, "THE ID IN GET RENTAL");
     let res = await this.request(`/rentals/${id}`);
-    console.log(res, "THE RES in GET RENTAL");
     return res.rental;
   }
 

@@ -72,6 +72,7 @@ def decode_and_upload_photo(photo_data):
     #TODO: Grab the mimetype off of the URL (Look up a module to do so)
 
     # returned_bytes = photo_data['bytes'][index:]
+    print(photo_data['bytes'])
 
     returned_bytes = photo_data['bytes'].split(',', 1)[1].strip()
 

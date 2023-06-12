@@ -6,13 +6,13 @@ function RentalsList() {
   const [rentals, setRentals] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log(rentals, "RENTALS IN RENTALSLIST");
+
   async function getAllRentals() {
     const rentals = await shareBnbApi.getAllRentals();
     setRentals(rentals);
     setIsLoading(false);
   }
-
-  console.log(rentals, "THE RENTALS IN RENTALSLIST");
 
   if (isLoading === true) {
     getAllRentals();
@@ -24,8 +24,8 @@ function RentalsList() {
       <h1 className="text-center m-2">Check out all rentals available!</h1>
       <div className="row">
         {rentals.map((rental) => (
-          <div className="col-md-6">
-            <Rental key={rental.id} id={rental.id} />
+          <div className="col-md-6" key={rental.id}>
+            <Rental id={rental.id} />
           </div>
         ))}
       </div>

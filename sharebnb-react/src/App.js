@@ -22,20 +22,11 @@ function App() {
   const [user, setUser] = useState(initialUser);
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  console.log(user, "THE USER");
-  console.log(token, "THE TOKEN IN APP");
-  console.log(rentalSpaces, "THE RENTAL SPACES");
-
   /**  */
   async function addRentalSpace(rental) {
-    console.log("rental:", rental);
     const newRental = await shareBnbApi.addRental(rental);
-    console.log(newRental);
 
-    setRentalSpaces((rentalSpaces) => ([
-      ...rentalSpaces,
-      newRental,
-    ]));
+    setRentalSpaces((rentalSpaces) => [...rentalSpaces, newRental]);
   }
 
   useEffect(
@@ -44,7 +35,6 @@ function App() {
         try {
           const user = await shareBnbApi.getUser(username);
           const rentals = await shareBnbApi.getRentals(username);
-          console.log("rentals:", rentals);
           setUser(user);
           setRentalSpaces(rentals);
         } catch (err) {
