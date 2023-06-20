@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SignupForm.css";
 import { FormEvent } from "react";
+import { ChangeEvent } from "react";
 
 /** Signup Form
  *
@@ -55,7 +56,7 @@ function SignupForm({ handleSignup }: SignupFormProps): JSX.Element {
   const navigate = useNavigate();
 
   /** Handles keystrokes in searchbar and updates formData */
-  function handleChange(evt: FormEvent<HTMLFormElement>) {
+  function handleChange(evt: ChangeEvent<HTMLInputElement>) {
     const fieldName = (evt.target as HTMLInputElement).name;
     const value = (evt.target as HTMLInputElement).value;
 
@@ -108,7 +109,7 @@ function SignupForm({ handleSignup }: SignupFormProps): JSX.Element {
                 aria-label="password"
                 type="password"
                 placeholder="password"
-                minLength="5"
+                minLength={5}
                 required
               />
               <label htmlFor="email">Email</label>

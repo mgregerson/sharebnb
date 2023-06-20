@@ -5,7 +5,7 @@ import AddRentalForm from "./AddRentalForm";
 import UserProfile from "./UserProfile.tsx";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
-import Rental from "./Rental";
+import Rental from "./Rental.tsx";
 import Homepage from "./Homepage";
 import RentalsList from "./RentalsList.js";
 import NotFound from "./NotFound.js";
