@@ -55,7 +55,7 @@ function UserProfile(): JSX.Element {
       <div className="row">
         {rentalSpaces.map((rental) => (
           <div className="col-md-6" key={rental.id}>
-            <Rental id={rental.id} rentalInfo={rental} />
+            <Rental id={rental.id} />
           </div>
         ))}
       </div>
