@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import userContext from "./userContext.js";
 import { useContext } from "react";
 import AddRentalForm from "./AddRentalForm";
-import UserProfile from "./UserProfile.js";
+import UserProfile from "./UserProfile.tsx";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 import Rental from "./Rental";
