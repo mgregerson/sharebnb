@@ -1,4 +1,5 @@
 import "./Homepage.css";
+import React from "react";
 
 /** Homepage
  *
@@ -8,8 +9,15 @@ import "./Homepage.css";
  * App -> Homepage
  */
 
-function Homepage({ user }) {
-  console.log(user, "THE USER");
+interface user {
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  applications: [];
+}
+
+function Homepage({ user }: { user: user }): JSX.Element {
   return (
     <div className="Homepage">
       <div className="container text-center my-auto">
