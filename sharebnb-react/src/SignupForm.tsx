@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SignupForm.css";
+import { FormEvent } from "react";
 
 /** Signup Form
  *
@@ -14,37 +15,58 @@ import "./SignupForm.css";
  * App -> SignupForm
  *
  */
-function SignupForm({ handleSignup }) {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    email: "",
-    image_url: "",
-    bio: "",
-    location: "",
-  });
 
-  const [apiError, setApiError] = useState({
-    isError: false,
-    errorMessage: "",
-  });
+interface SignupFormProps {
+  handleSignup: Function;
+}
+
+interface FormData {
+  username: string;
+  password: string;
+  email: string;
+  image_url: string;
+  bio: string;
+  location: string;
+}
+
+interface ApiError {
+  isError: boolean;
+  errorMessage: string;
+}
+
+const initialFormData: FormData = {
+  username: "string",
+  password: "",
+  email: "",
+  image_url: "",
+  bio: "",
+  location: "",
+};
+
+const initialApiError: ApiError = {
+  isError: false,
+  errorMessage: "",
+};
+
+function SignupForm({ handleSignup }: SignupFormProps): JSX.Element {
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [apiError, setApiError] = useState<ApiError>(initialApiError);
 
   const navigate = useNavigate();
-  console.log(apiError, "THE API ERROR IN SIGNUP");
 
   /** Handles keystrokes in searchbar and updates formData */
-  function handleChange(evt) {
-    const fieldName = evt.target.name;
-    const value = evt.target.value;
+  function handleChange(evt: FormEvent<HTMLFormElement>) {
+    const fieldName = (evt.target as HTMLInputElement).name;
+    const value = (evt.target as HTMLInputElement).value;
 
-    setFormData((currData) => {
-      currData[fieldName] = value;
-      return { ...currData };
-    });
+    setFormData((currData) => ({
+      ...currData,
+      [fieldName]: value,
+    }));
   }
 
   /** Navigates to signup page if successfully logged in, else shows error msg*/
-  async function handleSubmit(evt) {
+  async function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     try {
       await handleSignup(formData);
