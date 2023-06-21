@@ -1,21 +1,28 @@
 import shareBnbApi from "./api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Rental from "./Rental";
+import React from "react";
 
 function RentalsList() {
-  const [rentals, setRentals] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [rentals, setRentals] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  console.log(rentals, "RENTALS IN RENTALSLIST");
+  useEffect(() => {
+    getAllRentals();
+  }, []);
 
   async function getAllRentals() {
-    const rentals = await shareBnbApi.getAllRentals();
-    setRentals(rentals);
-    setIsLoading(false);
+    try {
+      const rentals = await shareBnbApi.getAllRentals();
+      setRentals(rentals);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching rentals:", error);
+      setIsLoading(false);
+    }
   }
 
   if (isLoading === true) {
-    getAllRentals();
     return <div className="Loading">Loading Rentals...</div>;
   }
 

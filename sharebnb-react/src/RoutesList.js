@@ -7,7 +7,7 @@ import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 import Rental from "./Rental.tsx";
 import Homepage from "./Homepage";
-import RentalsList from "./RentalsList.js";
+import RentalsList from "./RentalsList.tsx";
 import NotFound from "./NotFound.js";
 
 /**  */
