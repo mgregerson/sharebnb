@@ -36,7 +36,7 @@ interface ApiError {
 }
 
 const initialFormData: FormData = {
-  username: "string",
+  username: "",
   password: "",
   email: "",
   image_url: "",
