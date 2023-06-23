@@ -1,10 +1,10 @@
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import { useState, useEffect } from "react";
-import shareBnbApi from "./api";
+import shareBnbApi from "./helpers/api";
 import RoutesList from "./RoutesList";
 import jwt_decode from "jwt-decode";
-import Nav from "./Nav";
+import Nav from "./components/Nav";
 import userContext from "./userContext.js";
 /**
  *

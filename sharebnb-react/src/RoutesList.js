@@ -1,14 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import userContext from "./userContext.js";
 import { useContext } from "react";
-import AddRentalForm from "./AddRentalForm";
-import UserProfile from "./UserProfile.tsx";
-import SignupForm from "./SignupForm";
-import LoginForm from "./LoginForm";
-import Rental from "./Rental.tsx";
-import Homepage from "./Homepage";
-import RentalsList from "./RentalsList.tsx";
-import NotFound from "./NotFound.js";
+import AddRentalForm from "./components/forms/AddRentalForm";
+import UserProfile from "./pages/UserProfile.tsx";
+import SignupForm from "./components/forms/SignupForm";
+import LoginForm from "./components/forms/LoginForm";
+import Homepage from "./pages/Homepage";
+import RentalsList from "./pages/RentalsList.tsx";
+import NotFound from "./components/shared/NotFound.js";
 
 /**  */
 function RoutesList({
