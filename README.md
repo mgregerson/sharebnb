@@ -19,7 +19,8 @@ ShareBnb is a web application that allows users to share and rent accommodations
 - CSS: Styling the components and layout of the app.
 - Node.js: JavaScript runtime environment.
 - Express.js: Web application framework for Node.js.
-- MongoDB: NoSQL database for storing user and rental data.
+- PostgreSQL: SQL database for storing user and rental data.
+- AWS S3: Cloud storage for storing photos.
 
 ## Getting Started
 
