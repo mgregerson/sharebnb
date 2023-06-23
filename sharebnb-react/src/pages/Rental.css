@@ -1,0 +1,18 @@
+.Rental.card {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffe5b4;
+}
+
+.Rental {
+  color: black;
+}
+
+.Rental-photo {
+  height: 200px;
+  width: 200px;
+}
+
+.Rental.card-owner {
+  color: blue;
+}

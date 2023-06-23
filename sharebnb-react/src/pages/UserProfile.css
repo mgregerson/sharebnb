@@ -1,0 +1,19 @@
+.UserProfile.card {
+  background-color: peachpuff;
+}
+
+.UserProfile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-title,
+.card-subtitle {
+  color: navy;
+}
+
+.card-text {
+  color: rgb(71, 67, 67);
+}

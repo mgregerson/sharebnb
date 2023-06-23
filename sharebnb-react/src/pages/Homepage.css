@@ -1,0 +1,18 @@
+h1 {
+  color: black;
+}
+
+p {
+  color: white;
+}
+
+h3 {
+  color: black;
+}
+
+.Homepage {
+  display: flex;
+  height: calc(100vh - 150px);
+  justify-content: center;
+  align-items: center;
+}
